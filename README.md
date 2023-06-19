@@ -31,3 +31,25 @@ So after all these changes I tried another Docker compose again now this time I 
 
 And after all of that 
 ![Sucess!](Images/Success.png)
+
+## Creating New Migrations
+
+After the the initial migrations for the Ef history table where created my next step was to contain a migrations for the Snack's table and then another to insert data. However I ran into a few issues in just applying the migrations.
+
+I was getting circular depedency errors from the docker compose file when trying to execute the " dotnet ef migrations add ".
+![Circular Dependency](Images/CircularDependency.png)
+I tried to specify the project name but that wasn't succesful either.
+[Project Name](Images/TriedToSpecifyProct.png)
+
+ After reading this article [Applying Entity Framework Migrations to a Docker Container](https://codebuckets.com/2020/08/14/applying-entity-framework-migrations-to-a-docker-container/) I realized that I needed to do a docker compose then try the migrations.
+
+ [Migration After docker compose](Images/WorkAfterCompose.png)
+
+ Since the next error stated I still needed to add the Design nuget I went to the nuget packages manager to add it.
+ [Adding EntityFramework.Design](Images/AddDesign.png)
+
+ Now the MySQL Hosts appear to be not be being detected from the connection strings
+ [Unable to Connect to Hosts](Images/UnableToConnectToHosts.png)
+
+ Just to rule it out I used TablePlus to connect to the docker database to confirm even the 127.0.0.1 ipaddress host should work.
+ ![Different client](Images/UsingMySqlClientTablePlus.png)

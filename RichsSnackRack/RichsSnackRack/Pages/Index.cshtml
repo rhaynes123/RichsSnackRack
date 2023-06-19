@@ -9,3 +9,27 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+<div>
+    <table class="table table-borded">
+        <thead class="thead-dark">
+            <tr>
+                <th>Service</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+
+        @if (Model.snacks is not null && Model.snacks.Count is not 0)
+        {
+            foreach (var item in Model.snacks)
+            {
+                <tbody>
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Price</td>
+                    </tr>
+                </tbody>
+            }
+        }
+
+    </table>
+</div>

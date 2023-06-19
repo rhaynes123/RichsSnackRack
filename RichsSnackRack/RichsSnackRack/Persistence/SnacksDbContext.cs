@@ -21,6 +21,7 @@ namespace RichsSnackRack.Persistence;
                 entity.Property(snack => snack.Name);
                 entity.Property(snack => snack.ImageUrl);
                 entity.Property(movie => movie.Price);
+                entity.Property(snack => snack.Active).HasDefaultValue(1);
 
             });
         }
