@@ -37,19 +37,34 @@ And after all of that
 After the the initial migrations for the Ef history table where created my next step was to contain a migrations for the Snack's table and then another to insert data. However I ran into a few issues in just applying the migrations.
 
 I was getting circular depedency errors from the docker compose file when trying to execute the " dotnet ef migrations add ".
+
 ![Circular Dependency](Images/CircularDependency.png)
+
 I tried to specify the project name but that wasn't succesful either.
-[Project Name](Images/TriedToSpecifyProct.png)
+![Project Name](Images/TriedToSpecifyProct.png)
 
  After reading this article [Applying Entity Framework Migrations to a Docker Container](https://codebuckets.com/2020/08/14/applying-entity-framework-migrations-to-a-docker-container/) I realized that I needed to do a docker compose then try the migrations.
 
- [Migration After docker compose](Images/WorkAfterCompose.png)
+ ![Migration After docker compose](Images/WorkAfterCompose.png)
 
  Since the next error stated I still needed to add the Design nuget I went to the nuget packages manager to add it.
- [Adding EntityFramework.Design](Images/AddDesign.png)
+ ![Adding EntityFramework.Design](Images/AddDesign.png)
 
  Now the MySQL Hosts appear to be not be being detected from the connection strings
- [Unable to Connect to Hosts](Images/UnableToConnectToHosts.png)
+ ![Unable to Connect to Hosts](Images/UnableToConnectToHosts.png)
 
  Just to rule it out I used TablePlus to connect to the docker database to confirm even the 127.0.0.1 ipaddress host should work.
  ![Different client](Images/UsingMySqlClientTablePlus.png)
+
+ After doing a lot googling I couldn't find anything that was a few simple steps that would allow me to make the migrations work. So I decided to work around the problem and shut down the container and reconnected to my local instance of MySql and that worked for my needs but since it's a workaround eventually I need to find a way to generate the migrations from my docker container.
+
+ ![Migrations Worked From Local](Images/WorkAroundUsingLocalDb.png)
+
+ I next decided that since I was connected to my local to test my inserst statement there and found that the Active flag I created for some reason didn't get a default value and I missed that during the migration. 
+ 
+ ![Insert Failed](Images/ActiveHadNotDefault.png)
+ 
+ I believe it's because MySql doesn't have the concept of a bool so it uses a tinyint(1) in place of a bool for true or false.
+
+ ![Added Default One](Images/AddedDefaultOfOne.png)
+ ![Insert Succeeded](Images/InsertsWorkedAfterAddingDefault.png)
