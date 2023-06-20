@@ -5,6 +5,8 @@ services:
     depends_on:
     - db
     image: ${DOCKER_REGISTRY-}richssnackrack
+    environment:
+      - CONTAINER=true
     build:
       context: .
       dockerfile: RichsSnackRack/Dockerfile

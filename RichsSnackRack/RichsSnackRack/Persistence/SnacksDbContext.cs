@@ -1,15 +1,18 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using RichsSnackRack.Menu;
+using RichsSnackRack.Menu.Models;
+using RichsSnackRack.Orders.Models;
 
 namespace RichsSnackRack.Persistence;
 
-	public class SnacksDbContext: DbContext
+	public class SnackRackDbContext: DbContext
 	{
-		public SnacksDbContext(DbContextOptions<SnacksDbContext> options) : base(options: options)
+		public SnackRackDbContext(DbContextOptions<SnackRackDbContext> options) : base(options: options)
 		{
 		}
 		public DbSet<Snack> Snacks { get; set; } = default!;
+        public DbSet<Order> Orders { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +27,14 @@ namespace RichsSnackRack.Persistence;
                 entity.Property(snack => snack.Active).HasDefaultValue(1);
 
             });
-        }
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.HasKey(snack => snack.Id);
+                entity.Property(snack => snack.SnackId);
+                entity.Property(snack => snack.OrderDate);
+
+            });
+    }
 }
 

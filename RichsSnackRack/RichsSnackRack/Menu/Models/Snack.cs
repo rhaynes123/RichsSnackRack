@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RichsSnackRack.Menu
+namespace RichsSnackRack.Menu.Models
 {
-	public class Snack
+	public sealed class Snack
     {
         public Snack()
         {

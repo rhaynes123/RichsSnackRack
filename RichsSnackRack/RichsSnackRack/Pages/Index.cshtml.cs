@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Immutable;
+using Mediator;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RichsSnackRack.Menu;
+using RichsSnackRack.Menu.Models;
 using RichsSnackRack.Persistence;
 
 namespace RichsSnackRack.Pages;
@@ -9,20 +12,21 @@ public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
 
-    private readonly SnacksDbContext _snacksDbContext;
+    private readonly IMediator _mediator;
 
     [BindProperty]
-    public IReadOnlyList<Snack> snacks { get; set; } = new List<Snack>();
+    public IReadOnlyList<Snack> snacks { get; set; } = ImmutableList<Snack>.Empty;
     public IndexModel(ILogger<IndexModel> logger
-        , SnacksDbContext snacksDbContext)
+        , IMediator mediator)
     {
         _logger = logger;
-        _snacksDbContext = snacksDbContext;
+        _mediator = mediator;
     }
 
-    public void OnGet()
+    public async Task<IActionResult> OnGet()
     {
-        snacks = _snacksDbContext.Snacks.ToList().AsReadOnly();
+        snacks = await _mediator.Send(new GetAllMenuQuery());
+        return Page();
     }
 }
 

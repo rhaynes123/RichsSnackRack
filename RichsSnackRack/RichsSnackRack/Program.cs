@@ -5,9 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddMediator(options: option => option.ServiceLifetime = ServiceLifetime.Scoped);
+string mySqlConnectionString = (Environment.GetEnvironmentVariable("CONTAINER") == "true") == true
+    ? builder.Configuration.GetConnectionString("SnackDbConnection")!
+    : builder.Configuration.GetConnectionString("LocalHost")!;
 
-string mySqlConnectionString = builder.Configuration.GetConnectionString("SnackDbConnection")!;
-builder.Services.AddDbContext<SnacksDbContext>((serviceProvider, optionsBuilder) =>
+builder.Services.AddDbContext<SnackRackDbContext>((serviceProvider, optionsBuilder) =>
 {
     optionsBuilder.UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString), optionsBuilder => optionsBuilder
         .EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null));
@@ -18,7 +21,7 @@ builder.Services.AddDbContext<SnacksDbContext>((serviceProvider, optionsBuilder)
 var app = builder.Build();
 using (var serviceScope = app.Services.CreateScope())
 {
-    SnacksDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<SnacksDbContext>();
+    SnackRackDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<SnackRackDbContext>();
     await dbContext.Database.MigrateAsync();
 }
 // Configure the HTTP request pipeline.

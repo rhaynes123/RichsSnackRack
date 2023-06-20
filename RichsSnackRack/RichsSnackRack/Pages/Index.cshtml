@@ -15,6 +15,7 @@
             <tr>
                 <th>Service</th>
                 <th>Price</th>
+                <th>Order</th>
             </tr>
         </thead>
 
@@ -26,6 +27,7 @@
                     <tr>
                         <td>@item.Name</td>
                         <td>@item.Price</td>
+                        <td><a input="submit" class="btn btn-warning" asp-page="./CreateOrder" asp-route-id="@item.Id">Order Snack</a></td>
                     </tr>
                 </tbody>
             }

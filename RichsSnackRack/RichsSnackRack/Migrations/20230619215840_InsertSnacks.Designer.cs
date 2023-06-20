@@ -9,7 +9,7 @@ using RichsSnackRack.Persistence;
 
 namespace RichsSnackRack.Migrations
 {
-    [DbContext(typeof(SnacksDbContext))]
+    [DbContext(typeof(SnackRackDbContext))]
     [Migration("20230619215840_InsertSnacks")]
     partial class InsertSnacks
     {

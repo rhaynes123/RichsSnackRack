@@ -1,5 +1,8 @@
 # RichsSnackRack
-This Project is a .Net sandbox for testing new technologies, design principles, paradigms, packages etc. asl well as documenting any challenges along the way
+This Project is a .Net sandbox for testing new technologies, design principles, paradigms, packages etc. asl well as documenting any challenges along the way.
+
+# Functional Programming
+For reference as a personal goal this project will also be an attempt to learn functional programming so as much as possible functional programming principles will be used at least up to my understanding of the concepts.
 
 # Challenges
 ## Adding Docker Support For MySql
@@ -68,3 +71,29 @@ I tried to specify the project name but that wasn't succesful either.
 
  ![Added Default One](Images/AddedDefaultOfOne.png)
  ![Insert Succeeded](Images/InsertsWorkedAfterAddingDefault.png)
+
+## Creating New Migrations Part 2
+
+Ok I knew it would happen that I'd need to find some solution to the migrations not working for the container. I was getting ready to build a new Order model.
+
+After doing some more searching I found this github issue [dotnet ef migrations add <name> fails in docker container #291](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/issues/291) , that showed how I could configure the container environment variable to allow the container to apply changes.
+
+1st. I configured the docker_compose file.
+
+![Docker File](Images/dockerfilewithcontainer.png)
+
+2nd. Update the connection string to change base of the environment variable in the docker_compose.
+
+![Check The Values For the Connection String](Images/CheckingTheEnvvalues.png)
+
+3rd. Update the connection strings in the Appsettings. (My actual values are in secrets)
+![LocalHost Appsetting](Images/WhatTheAppsettings.png)
+
+4th. Create Order Table migrations where created after that.
+![Add Migration Worked](Images/CreateNewTableMigrationgWorkedOnContainer.png)
+
+## Default Value Incorrect
+
+Turned out the migration lacked the correct ability to add a default value.
+
+This stack overflow showed a data annotation to correct the problem however [Setting the default value of a DateTime Property to DateTime.Now inside the System.ComponentModel Default Value Attrbute](https://stackoverflow.com/questions/691035/setting-the-default-value-of-a-datetime-property-to-datetime-now-inside-the-syst)
