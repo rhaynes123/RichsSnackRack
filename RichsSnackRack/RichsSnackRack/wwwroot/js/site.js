@@ -7,13 +7,12 @@
 
 const downloadButton = document.getElementById('downloandOrderDetailReceiptId');
 
-
-//// TODO the selectors need to have the values passed in so other things can get selected
-//document.querySelector("#copyBtnId").addEventListener("click", () => {
-//    let generatedNumber = document.querySelector("#orderDetailId").innerHTML;
-//    let clipboard = navigator.clipboard;
-//    clipboard.writeText(generatedNumber);
-//})
+// TODO the selectors need to have the values passed in so other things can get selected
+document.querySelector("#copyBtnId").addEventListener("click", () => {
+    let orderId = document.querySelector("#orderDetailId").innerHTML;
+    let clipboard = navigator.clipboard;
+    clipboard.writeText(orderId);
+})
 
 
 

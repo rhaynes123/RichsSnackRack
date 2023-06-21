@@ -18,13 +18,3 @@
 <div class="text-center">
     <button id="downloandOrderDetailReceiptId" class="btn btn-warning">Download Order Receipt</button>
 </div>
-<script>
-
-    // TODO the selectors need to have the values passed in so other things can get selected
-    document.querySelector("#copyBtnId").addEventListener("click", () => {
-        let orderId = document.querySelector("#orderDetailId").innerHTML;
-        let clipboard = navigator.clipboard;
-        clipboard.writeText(orderId);
-    })
-
-</script>
