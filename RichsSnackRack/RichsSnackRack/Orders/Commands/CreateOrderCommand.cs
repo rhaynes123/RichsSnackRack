@@ -6,9 +6,9 @@ using RichsSnackRack.Persistence;
 
 namespace RichsSnackRack.Orders.Commands
 {
-	public sealed record CreateOrderCommand(Snack snack): INotification;
+	public sealed record CreateOrderCommand(Snack snack): IRequest<Order>;
 
-    public sealed class CreateOrderCommandHandler : INotificationHandler<CreateOrderCommand>
+    public sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Order>
     {
         private readonly SnackRackDbContext _snacksDbContext;
 
@@ -16,7 +16,7 @@ namespace RichsSnackRack.Orders.Commands
         {
             _snacksDbContext = snackRackDbContext;
         }
-        public async ValueTask Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+        public async ValueTask<Order> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             var order = new Order
             {
@@ -25,6 +25,7 @@ namespace RichsSnackRack.Orders.Commands
 
             await _snacksDbContext.Orders.AddAsync(order, cancellationToken:cancellationToken);
             await _snacksDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
+            return order;
         }
     }
 }

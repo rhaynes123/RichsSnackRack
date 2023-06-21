@@ -35,6 +35,8 @@
     <None Remove="Orders\" />
     <None Remove="Orders\Models\" />
     <None Remove="Orders\Commands\" />
+    <None Remove="Menu\Queries\" />
+    <None Remove="Orders\Queries\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Menu\" />
@@ -42,5 +44,7 @@
     <Folder Include="Orders\" />
     <Folder Include="Orders\Models\" />
     <Folder Include="Orders\Commands\" />
+    <Folder Include="Menu\Queries\" />
+    <Folder Include="Orders\Queries\" />
   </ItemGroup>
 </Project>

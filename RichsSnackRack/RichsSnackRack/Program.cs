@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RichsSnackRack.Orders;
 using RichsSnackRack.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,9 @@ builder.Services.AddDbContext<SnackRackDbContext>((serviceProvider, optionsBuild
     optionsBuilder.EnableDetailedErrors();
     optionsBuilder.EnableSensitiveDataLogging();
 });
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
 var app = builder.Build();
 using (var serviceScope = app.Services.CreateScope())
 {
