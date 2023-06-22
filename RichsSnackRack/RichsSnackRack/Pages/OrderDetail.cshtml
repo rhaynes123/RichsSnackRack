@@ -8,7 +8,7 @@
     ViewData["Title"] = "Order";
 }
 
-<h1>Create Order</h1>
+<h1>View Order Details</h1>
 
 <h4>Snack Order</h4>
 <hr />
@@ -19,21 +19,30 @@
             <input type="hidden" asp-for="orderDetail.Id" />
             <div class="form-group">
                 <label asp-for="orderDetail.Name" class="control-label"></label>
-                <input asp-for="orderDetail.Name" class="form-control" />
+                <input asp-for="orderDetail.Name" class="form-control" disabled />
                 <span asp-validation-for="orderDetail.Name" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="orderDetail.Price" class="control-label"></label>
-                <input asp-for="orderDetail.Price" class="form-control" />
+                <input asp-for="orderDetail.Price" class="form-control" disabled />
                 <span asp-validation-for="orderDetail.Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="orderDetail.OrderDate" class="control-label"></label>
+                <input asp-for="orderDetail.OrderDate" class="form-control" disabled />
+                <span asp-validation-for="orderDetail.OrderDate" class="text-danger"></span>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">Back to Menu</a>
+</div>
+<div>
+    <a asp-page="./OrderConfirmation" asp-route-id="@Model.orderDetail.Id">View Receipt</a>
 </div>
 
 @section Scripts {

@@ -6,15 +6,15 @@
         integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
         crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
+
 <div id="orderDetailReceiptId">
     <div class="text-center">
         <h1>Order Confirmed</h1>
-        <a asp-page="./OrderDetail" asp-route-id="@Model.Id"><h1 id="orderDetailId">@Model.Id</h1></a>
+        <a href="#" data-toggle="tooltip" data-placement="left" title="Click To Copy"><h1 id="orderDetailLink">@Model.Id</h1></a>
+        <div hidden id="hiddenOrderDetailId">@Model.Id</div>
     </div>
 </div>
-<div class="text-center">
-    <button id="copyBtnId" class="btn btn-primary">Copy Order Number</button>
-</div>
+
 <div class="text-center">
     <button id="downloandOrderDetailReceiptId" class="btn btn-warning">Download Order Receipt</button>
 </div>
