@@ -10,23 +10,15 @@ namespace RichsSnackRack.Orders.Commands
 
     public sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Order>
     {
-        private readonly SnackRackDbContext _snacksDbContext;
+        private readonly IOrderRepository _orderRepo;
 
-        public CreateOrderCommandHandler(SnackRackDbContext snackRackDbContext)
+        public CreateOrderCommandHandler(IOrderRepository orderRepository)
         {
-            _snacksDbContext = snackRackDbContext;
+            _orderRepo = orderRepository;
         }
         public async ValueTask<Order> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = new Order
-            {
-                SnackId = request.snack.Id,
-                OrderStatus = Models.Enums.OrderStatus.Completed
-            };
-
-            await _snacksDbContext.Orders.AddAsync(order, cancellationToken:cancellationToken);
-            await _snacksDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
-            return order;
+            return await _orderRepo.CreateOrder(request.snack);
         }
     }
 }

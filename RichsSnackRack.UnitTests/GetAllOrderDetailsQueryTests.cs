@@ -20,7 +20,7 @@ public class GetAllOrderDetailsQueryTests
             }
         };
 
-        mocRepo.Setup(mock => mock.GetAllOrders()).ReturnsAsync(orders);
+        mocRepo.Setup(mock => mock.GetAllOrders(It.IsAny<CancellationToken>())).ReturnsAsync(orders);
 
     }
     [Fact]

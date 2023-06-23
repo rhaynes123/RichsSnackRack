@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using RichsSnackRack.Menu.Models;
+using RichsSnackRack.Orders;
 using RichsSnackRack.Orders.Commands;
 using RichsSnackRack.Orders.Models;
 
@@ -9,10 +10,12 @@ namespace RichsSnackRack.IntegrationTests.Orders.Commands
 	public class CreateOrderCommandTests: IClassFixture<IntegrationDbContextFixture>
 	{
 		private readonly IntegrationDbContextFixture _contextFixture;
+		private readonly IOrderRepository orderRepository;
         public CreateOrderCommandTests(IntegrationDbContextFixture contextFixture)
 		{
 			_contextFixture = contextFixture;
-		}
+			orderRepository = new OrderRepository(_contextFixture.dbContext);
+        }
 
 		[Fact]
 		public async Task HandlerWasSuccessful()
@@ -25,7 +28,7 @@ namespace RichsSnackRack.IntegrationTests.Orders.Commands
 			};
 			
 			CreateOrderCommand createCommand = new(snack);
-			CreateOrderCommandHandler _sut = new(_contextFixture.dbContext);
+			CreateOrderCommandHandler _sut = new(orderRepository);
             //Act
             var result = await _sut.Handle(createCommand, default);
 			//Assert

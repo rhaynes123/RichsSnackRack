@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using RichsSnackRack.Persistence;
 using RichsSnackRack.Orders.Models;
 using RichsSnackRack.Menu.Models;
+using Azure.Core;
+using System.Threading;
 
 namespace RichsSnackRack.Orders
 {
@@ -16,7 +18,20 @@ namespace RichsSnackRack.Orders
             _snacksDbContext = snackRackDbContext;
 		}
 
-        public async Task<IReadOnlyList<Order>> GetAllOrders()
+        public async Task<Order> CreateOrder(Snack snack, CancellationToken cancellationToken)
+        {
+            var order = new Order
+            {
+                SnackId = snack.Id,
+                OrderStatus = Models.Enums.OrderStatus.Completed
+            };
+
+            await _snacksDbContext.Orders.AddAsync(order, cancellationToken: cancellationToken);
+            await _snacksDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
+            return order;
+        }
+
+        public async Task<IReadOnlyList<Order>> GetAllOrders(CancellationToken cancellationToken)
         {
             return await _snacksDbContext.Orders.ToListAsync();
         }
