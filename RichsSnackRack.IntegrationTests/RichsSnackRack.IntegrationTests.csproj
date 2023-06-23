@@ -31,11 +31,13 @@
     <None Remove="Pages\" />
     <None Remove="Orders\" />
     <None Remove="Orders\Commands\" />
+    <None Remove="Menu\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="Orders\" />
     <Folder Include="Orders\Commands\" />
+    <Folder Include="Menu\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RichsSnackRack\RichsSnackRack\RichsSnackRack.csproj" />

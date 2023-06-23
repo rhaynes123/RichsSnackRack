@@ -1,8 +1,12 @@
 ﻿@page
 @model RichsSnackRack.Pages.AllOrdersModel
+@using RichsSnackRack.Orders.Models.Enums
 @{
 }
 
+<style>
+    #orderStatus{}
+</style>
 <div class="col-md-4">
     <input type="text" id="searchInput"class="search-query form-control" placeholder="Search By Order ..">
 </div>
@@ -12,6 +16,7 @@
             <tr>
                 <th>Order Id</th>
                 <th>Order Date</th>
+                <td>Status </td>
                 <th>View Order</th>
             </tr>
         </thead>
@@ -24,6 +29,7 @@
                     <tr>
                         <td>@item.Id</td>
                         <td>@item.OrderDate</td>
+                        <td class="orderStatus">@item.OrderStatus</td>
                         <td><a input="submit" class="btn btn-warning" asp-page="./OrderDetail" asp-route-id="@item.Id">View Order Detail</a></td>
                     </tr>
                 </tbody>
@@ -32,3 +38,24 @@
 
     </table>
 </div>
+<script defer>
+    let orderStatuses = document.querySelectorAll('.orderStatus');
+
+    orderStatuses.forEach(status => {
+        switch (status.innerText)
+        {
+            case '@nameof(OrderStatus.Completed)':
+                status.style.color = '#008000'
+                break;
+            case '@nameof(OrderStatus.Refunded)':
+                status.style.color = '#FFFF00'
+                break;
+            case '@nameof(OrderStatus.Cancelled)':
+                status.style.color = '#FF0000'
+                break;
+            default:
+                break;
+        };
+    });
+
+</script>
