@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichsSnackRack", "RichsSnac
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EA899637-365B-42EB-AD3F-69F0A14B36DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichsSnackRack.IntegrationTests", "..\RichsSnackRack.IntegrationTests\RichsSnackRack.IntegrationTests.csproj", "{C1EA08E3-0AB7-48FA-ABF4-896536EFFE32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichsSnackRack.UnitTests", "..\RichsSnackRack.UnitTests\RichsSnackRack.UnitTests.csproj", "{4122A76C-ED44-45FF-966B-C3AFAE48EBB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{EA899637-365B-42EB-AD3F-69F0A14B36DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA899637-365B-42EB-AD3F-69F0A14B36DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA899637-365B-42EB-AD3F-69F0A14B36DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1EA08E3-0AB7-48FA-ABF4-896536EFFE32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1EA08E3-0AB7-48FA-ABF4-896536EFFE32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1EA08E3-0AB7-48FA-ABF4-896536EFFE32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1EA08E3-0AB7-48FA-ABF4-896536EFFE32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4122A76C-ED44-45FF-966B-C3AFAE48EBB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4122A76C-ED44-45FF-966B-C3AFAE48EBB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4122A76C-ED44-45FF-966B-C3AFAE48EBB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4122A76C-ED44-45FF-966B-C3AFAE48EBB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

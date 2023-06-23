@@ -56,6 +56,9 @@ namespace RichsSnackRack.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
                     b.Property<int>("SnackId")
                         .HasColumnType("int");
 

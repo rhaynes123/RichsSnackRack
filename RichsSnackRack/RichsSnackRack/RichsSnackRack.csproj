@@ -37,6 +37,7 @@
     <None Remove="Orders\Commands\" />
     <None Remove="Menu\Queries\" />
     <None Remove="Orders\Queries\" />
+    <None Remove="Orders\Models\Enums\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Menu\" />
@@ -46,5 +47,9 @@
     <Folder Include="Orders\Commands\" />
     <Folder Include="Menu\Queries\" />
     <Folder Include="Orders\Queries\" />
+    <Folder Include="Orders\Models\Enums\" />
   </ItemGroup>
+  <ItemGroup>
+     <InternalsVisibleTo Include="RichsSnackRack.IntegrationTests" />
+</ItemGroup>
 </Project>

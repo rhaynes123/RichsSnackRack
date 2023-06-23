@@ -20,17 +20,25 @@ namespace RichsSnackRack.Orders
         {
             return await _snacksDbContext.Orders.ToListAsync();
         }
-        public async Task<OrderDetail> GetOrderDetailById(Guid id)
+        public async Task<OrderDetail?> GetOrderDetailById(Guid id, CancellationToken cancellationToken)
         {
-            Order order = await _snacksDbContext.Orders.FindAsync(id);
-            Snack snack = await _snacksDbContext.Snacks.FindAsync(order.SnackId);
+            Order? order = await _snacksDbContext.Orders.FirstOrDefaultAsync(order => order.Id == id, cancellationToken);
+            if (order is null)
+            {
+                return default;
+            }
+            Snack? snack = await _snacksDbContext!.Snacks!.SingleOrDefaultAsync(snack => snack.Id == order.SnackId, cancellationToken)!;
+            if(snack is null)
+            {
+                return default;
+            }
             OrderDetail orderDetail = new()
             {
                 Id = order.Id,
                 Price = snack.Price,
                 Name = snack.Name,
+                OrderStatus = OrderDetailStatus.All.Single(status => status.Id == (int)order.OrderStatus),
                 OrderDate = order.OrderDate
-
             };
 
             return orderDetail;

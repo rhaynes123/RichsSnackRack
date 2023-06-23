@@ -5,7 +5,7 @@ namespace RichsSnackRack.Orders
 {
 	public interface IOrderRepository
 	{
-		Task<OrderDetail> GetOrderDetailById(Guid id);
+		Task<OrderDetail?> GetOrderDetailById(Guid id, CancellationToken cancellationToken = default);
 		Task<IReadOnlyList<Order>> GetAllOrders();
 	}
 }

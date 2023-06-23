@@ -20,7 +20,8 @@ namespace RichsSnackRack.Orders.Commands
         {
             var order = new Order
             {
-                SnackId = request.snack.Id
+                SnackId = request.snack.Id,
+                OrderStatus = Models.Enums.OrderStatus.Completed
             };
 
             await _snacksDbContext.Orders.AddAsync(order, cancellationToken:cancellationToken);

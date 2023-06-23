@@ -34,6 +34,12 @@
                 <input asp-for="orderDetail.OrderDate" class="form-control" disabled />
                 <span asp-validation-for="orderDetail.OrderDate" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="orderDetail.OrderStatus" class="control-label"></label>
+                <input asp-for="orderDetail.OrderStatus.Name" class="form-control" disabled data-toggle="tooltip" data-placement="left" title="@Model.orderDetail.OrderStatus.Description" />
+                <span asp-validation-for="orderDetail.OrderStatus.Name" class="text-danger"></span>
+            </div>
         </form>
     </div>
 </div>

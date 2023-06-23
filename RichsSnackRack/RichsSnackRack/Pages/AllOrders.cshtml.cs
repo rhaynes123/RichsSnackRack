@@ -19,7 +19,8 @@ namespace RichsSnackRack.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            orderDetails = await _mediator.Send(new GetAllOrderDetailsQuery());
+            var allOrders = await _mediator.Send(new GetAllOrderDetailsQuery());
+            orderDetails = allOrders.OrderByDescending(order => order.OrderDate).ToList();
             return Page();
         }
     }
