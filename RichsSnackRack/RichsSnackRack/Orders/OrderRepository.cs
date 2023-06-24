@@ -12,6 +12,7 @@ namespace RichsSnackRack.Orders
     public class OrderRepository : IOrderRepository
 	{
         private readonly SnackRackDbContext _snacksDbContext;
+        private const string OrderDetailViewQuery = "SELECT od.Id, od.`Name`, od.Price, od.OrderStatus, od.OrderDate FROM OrderDetails od";
         public OrderRepository(SnackRackDbContext snackRackDbContext)
 		{
             _snacksDbContext = snackRackDbContext;
@@ -30,17 +31,21 @@ namespace RichsSnackRack.Orders
             return order;
         }
 
-        public async Task<IReadOnlyList<Order>> GetAllOrders(CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<OrderDetail>> GetAllOrders(CancellationToken cancellationToken)
         {
-            return await _snacksDbContext.Orders.ToListAsync();
+            return await _snacksDbContext
+                .OrderDetails
+                .FromSqlRaw(OrderDetailViewQuery)
+                .Select(order => order.ToDetail())
+                .ToListAsync(cancellationToken: cancellationToken);
         }
         public async Task<OrderDetail?> GetOrderDetailById(Guid id, CancellationToken cancellationToken)
         {
             OrderDetailEntity? orderDetailEntity = await _snacksDbContext
                 .OrderDetails
-                .FromSqlRaw("SELECT od.Id, od.`Name`, od.Price, od.OrderStatus, od.OrderDate FROM OrderDetails od")
+                .FromSqlRaw(OrderDetailViewQuery)
                 .FirstOrDefaultAsync(orderDetail => orderDetail.Id == id, cancellationToken);
-            return orderDetailEntity is null ? null : orderDetailEntity.ToDetail();
+            return orderDetailEntity?.ToDetail();
         }
     }
 }

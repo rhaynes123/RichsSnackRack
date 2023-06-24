@@ -18,7 +18,7 @@ namespace RichsSnackRack.Orders.Commands
         }
         public async ValueTask<Order> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            return await _orderRepo.CreateOrder(request.snack);
+            return await _orderRepo.CreateOrder(request.snack, cancellationToken);
         }
     }
 }

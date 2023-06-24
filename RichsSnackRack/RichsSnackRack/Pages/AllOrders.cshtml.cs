@@ -2,6 +2,7 @@
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RichsSnackRack.Orders;
 using RichsSnackRack.Orders.Models;
 using RichsSnackRack.Orders.Queries;
 
@@ -15,7 +16,7 @@ namespace RichsSnackRack.Pages
             _mediator = mediator;
         }
         [BindProperty]
-        public IReadOnlyList<Order> orderDetails { get; set; } = ImmutableList<Order>.Empty;
+        public IReadOnlyList<OrderDetail> orderDetails { get; set; } = ImmutableList<OrderDetail>.Empty;
 
         public async Task<IActionResult> OnGetAsync()
         {

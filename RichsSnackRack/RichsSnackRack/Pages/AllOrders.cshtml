@@ -15,6 +15,8 @@
         <thead class="thead-dark">
             <tr>
                 <th>Order Id</th>
+                <th>Item Name</th>
+                <th>Price</th>
                 <th>Order Date</th>
                 <td>Status </td>
                 <th>View Order</th>
@@ -28,8 +30,10 @@
                 <tbody>
                     <tr>
                         <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Price</td>
                         <td>@item.OrderDate</td>
-                        <td class="orderStatus">@item.OrderStatus</td>
+                        <td class="orderStatus" data-bs-toggle="tooltip" data-bs-placement="left" title="@item.OrderStatus.Description">@item.OrderStatus.Name</td>
                         <td><a input="submit" class="btn btn-warning" asp-page="./OrderDetail" asp-route-id="@item.Id">View Order Detail</a></td>
                     </tr>
                 </tbody>
