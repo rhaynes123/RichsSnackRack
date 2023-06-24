@@ -16,7 +16,7 @@ public class GetAllOrderDetailsQueryTests
             new Order
             {
                 SnackId = 1,
-                OrderStatus = Orders.Models.Enums.OrderStatus.NA
+                OrderStatus = RichsSnackRack.Orders.Models.Enums.OrderStatus.NA
             }
         };
 

@@ -27,4 +27,10 @@
   <ItemGroup>
     <ProjectReference Include="..\RichsSnackRack\RichsSnackRack\RichsSnackRack.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Orders\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Orders\" />
+  </ItemGroup>
 </Project>
