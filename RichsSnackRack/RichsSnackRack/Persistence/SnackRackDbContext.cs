@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RichsSnackRack.Menu;
 using RichsSnackRack.Menu.Models;
 using RichsSnackRack.Orders.Models;
+using RichsSnackRack.Orders.Models.Entities;
 
 namespace RichsSnackRack.Persistence;
 
@@ -13,8 +14,9 @@ namespace RichsSnackRack.Persistence;
 		}
 		public DbSet<Snack> Snacks { get; set; } = default!;
         public DbSet<Order> Orders { get; set; } = default!;
+        public DbSet<OrderDetailEntity> OrderDetails { get; set; } = default!;
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
@@ -32,6 +34,16 @@ namespace RichsSnackRack.Persistence;
             {
                 entity.HasKey(order => order.Id);
                 entity.Property(order => order.SnackId);
+                entity.Property(order => order.OrderDate);
+                entity.Property(order => order.OrderStatus)
+                .HasConversion<int>();
+            });
+
+            modelBuilder.Entity<OrderDetailEntity>(entity =>
+            {
+                entity.HasKey(order => order.Id);
+                entity.Property(order => order.Name);
+                entity.Property(order => order.Price);
                 entity.Property(order => order.OrderDate);
                 entity.Property(order => order.OrderStatus)
                 .HasConversion<int>();

@@ -38,6 +38,8 @@
     <None Remove="Menu\Queries\" />
     <None Remove="Orders\Queries\" />
     <None Remove="Orders\Models\Enums\" />
+    <None Remove="Orders\Models\Entities\" />
+    <None Remove="Orders\Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Menu\" />
@@ -48,6 +50,8 @@
     <Folder Include="Menu\Queries\" />
     <Folder Include="Orders\Queries\" />
     <Folder Include="Orders\Models\Enums\" />
+    <Folder Include="Orders\Models\Entities\" />
+    <Folder Include="Orders\Extensions\" />
   </ItemGroup>
   <ItemGroup>
      <InternalsVisibleTo Include="RichsSnackRack.IntegrationTests" />

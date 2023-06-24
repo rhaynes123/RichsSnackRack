@@ -418,3 +418,7 @@ test/the-files-to-test.generated.js
 chrome-user-data
 *.sublime-project
 *.sublime-workspace
+.dll
+.pdb
+.cache
+.exe

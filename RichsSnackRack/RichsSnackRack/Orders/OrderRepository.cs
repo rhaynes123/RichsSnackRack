@@ -1,12 +1,11 @@
 ﻿using System;
 using Humanizer;
-using System.Security.Cryptography;
+using RichsSnackRack.Orders.Extensions;
 using Microsoft.EntityFrameworkCore;
 using RichsSnackRack.Persistence;
 using RichsSnackRack.Orders.Models;
 using RichsSnackRack.Menu.Models;
-using Azure.Core;
-using System.Threading;
+using RichsSnackRack.Orders.Models.Entities;
 
 namespace RichsSnackRack.Orders
 {
@@ -37,26 +36,12 @@ namespace RichsSnackRack.Orders
         }
         public async Task<OrderDetail?> GetOrderDetailById(Guid id, CancellationToken cancellationToken)
         {
-            Order? order = await _snacksDbContext.Orders.FirstOrDefaultAsync(order => order.Id == id, cancellationToken);
-            if (order is null)
-            {
-                return default;
-            }
-            Snack? snack = await _snacksDbContext!.Snacks!.SingleOrDefaultAsync(snack => snack.Id == order.SnackId, cancellationToken)!;
-            if(snack is null)
-            {
-                return default;
-            }
-            OrderDetail orderDetail = new()
-            {
-                Id = order.Id,
-                Price = snack.Price,
-                Name = snack.Name,
-                OrderStatus = OrderDetailStatus.All.Single(status => status.Id == (int)order.OrderStatus),
-                OrderDate = order.OrderDate
-            };
+            var orderDetailEntity = await _snacksDbContext
+                .OrderDetails
+                .FromSqlRaw("SELECT od.Id, od.`Name`, od.Price, od.OrderStatus, od.OrderDate FROM OrderDetails od WHERE od.Id = {0};", id).ToArrayAsync();
+                
 
-            return orderDetail;
+            return orderDetailEntity?.FirstOrDefault().ToDetail();
         }
     }
 }
