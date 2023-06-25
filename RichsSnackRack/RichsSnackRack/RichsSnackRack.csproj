@@ -52,8 +52,12 @@
     <Folder Include="Orders\Models\Enums\" />
     <Folder Include="Orders\Models\Entities\" />
     <Folder Include="Orders\Extensions\" />
+    <Folder Include="wwwroot\js\Ordering\" />
   </ItemGroup>
   <ItemGroup>
      <InternalsVisibleTo Include="RichsSnackRack.IntegrationTests" />
 </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\js\Ordering\" />
+  </ItemGroup>
 </Project>
