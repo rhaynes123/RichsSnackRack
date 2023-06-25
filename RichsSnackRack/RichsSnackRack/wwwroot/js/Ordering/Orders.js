@@ -34,3 +34,27 @@ if (searchInput && orderItemRows) {
         });
     });
 }
+
+
+const OrderStatues = {
+    Completed: 'Completed',
+    Refunded: 'Refunded',
+    Cancelled: 'Cancelled'
+}
+let orderStatuses = document.querySelectorAll('.orderStatus');
+
+orderStatuses.forEach(status => {
+    switch (status.innerText) {
+        case OrderStatues.Completed:
+            status.style.color = '#008000'
+            break;
+        case OrderStatues.Refunded:
+            status.style.color = '#FFFF00'
+            break;
+        case OrderStatues.Cancelled:
+            status.style.color = '#FF0000'
+            break;
+        default:
+            break;
+    };
+});

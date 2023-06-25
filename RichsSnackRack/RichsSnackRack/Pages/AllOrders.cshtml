@@ -42,24 +42,3 @@
 
     </table>
 </div>
-<script defer>
-    let orderStatuses = document.querySelectorAll('.orderStatus');
-
-    orderStatuses.forEach(status => {
-        switch (status.innerText)
-        {
-            case '@nameof(OrderStatus.Completed)':
-                status.style.color = '#008000'
-                break;
-            case '@nameof(OrderStatus.Refunded)':
-                status.style.color = '#FFFF00'
-                break;
-            case '@nameof(OrderStatus.Cancelled)':
-                status.style.color = '#FF0000'
-                break;
-            default:
-                break;
-        };
-    });
-
-</script>
