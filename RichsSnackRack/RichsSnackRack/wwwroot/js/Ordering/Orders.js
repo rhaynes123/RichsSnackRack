@@ -1,8 +1,14 @@
 ﻿
+const OrderStatues = {
+    Completed: 'Completed',
+    Refunded: 'Refunded',
+    Cancelled: 'Cancelled'
+};
 const downloadButton = document.getElementById('downloandOrderDetailReceiptId');
 const orderLinkToCopy = document.querySelector("#orderDetailLink");
 const searchInput = document.getElementById('searchInput');
 const orderItemRows = document.querySelectorAll("tbody tr");
+let orderStatuses = document.querySelectorAll('.orderStatus');
 
 // TODO the selectors need to have the values passed in so other things can get selected
 // TODO consider moving these4 functions to their own script files or folders
@@ -33,15 +39,7 @@ if (searchInput && orderItemRows) {
                 : (orderItemRow.style.display = "none")
         });
     });
-}
-
-
-const OrderStatues = {
-    Completed: 'Completed',
-    Refunded: 'Refunded',
-    Cancelled: 'Cancelled'
-}
-let orderStatuses = document.querySelectorAll('.orderStatus');
+};
 
 orderStatuses.forEach(status => {
     switch (status.innerText) {

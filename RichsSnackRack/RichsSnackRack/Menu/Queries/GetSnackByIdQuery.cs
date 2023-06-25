@@ -8,7 +8,7 @@ namespace RichsSnackRack.Menu.Queries
 {
     public sealed record GetSnackByIdQuery(int id) : IQuery<Snack?>;
 
-    public sealed class GetSnackByIdQueryHandler : IQueryHandler<GetSnackByIdQuery, Snack?>
+    public record class GetSnackByIdQueryHandler : IQueryHandler<GetSnackByIdQuery, Snack?>
     {
         private readonly SnackRackDbContext _snacksDbContext;
         public GetSnackByIdQueryHandler(SnackRackDbContext snackRackDbContext)

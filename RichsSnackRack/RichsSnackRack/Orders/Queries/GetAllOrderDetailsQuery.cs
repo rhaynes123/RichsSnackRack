@@ -6,7 +6,7 @@ namespace RichsSnackRack.Orders.Queries
 {
     public sealed record GetAllOrderDetailsQuery() : IQuery<IReadOnlyList<OrderDetail>>;
 
-    public sealed class GetAllOrderDetailsQueryHandler : IQueryHandler<GetAllOrderDetailsQuery, IReadOnlyList<OrderDetail>>
+    public sealed record GetAllOrderDetailsQueryHandler : IQueryHandler<GetAllOrderDetailsQuery, IReadOnlyList<OrderDetail>>
     {
         private readonly IOrderRepository _orderRepository;
         public GetAllOrderDetailsQueryHandler(IOrderRepository orderRepository)

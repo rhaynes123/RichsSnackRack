@@ -8,7 +8,7 @@ namespace RichsSnackRack.Menu
 {
 	public sealed record GetAllMenuQuery() : IQuery<IReadOnlyList<Snack>>;
 
-    public sealed class GetAllMenuQueryHandler : IQueryHandler<GetAllMenuQuery, IReadOnlyList<Snack>>
+    public sealed record GetAllMenuQueryHandler : IQueryHandler<GetAllMenuQuery, IReadOnlyList<Snack>>
     {
         private readonly SnackRackDbContext _snacksDbContext;
 

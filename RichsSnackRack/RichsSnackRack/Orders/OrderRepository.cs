@@ -9,7 +9,7 @@ using RichsSnackRack.Orders.Models.Entities;
 
 namespace RichsSnackRack.Orders
 {
-    public class OrderRepository : IOrderRepository
+    public sealed class OrderRepository : IOrderRepository
 	{
         private readonly SnackRackDbContext _snacksDbContext;
         private const string OrderDetailViewQuery = "SELECT od.Id, od.`Name`, od.Price, od.OrderStatus, od.OrderDate FROM OrderDetails od";

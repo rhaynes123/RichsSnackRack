@@ -8,7 +8,7 @@ namespace RichsSnackRack.Orders.Commands
 {
 	public sealed record CreateOrderCommand(Snack snack): IRequest<Order>;
 
-    public sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Order>
+    public sealed record CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Order>
     {
         private readonly IOrderRepository _orderRepo;
 
