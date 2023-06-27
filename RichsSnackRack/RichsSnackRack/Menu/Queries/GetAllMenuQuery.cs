@@ -19,7 +19,7 @@ namespace RichsSnackRack.Menu
         public async ValueTask<IReadOnlyList<Snack>> Handle(GetAllMenuQuery query, CancellationToken cancellationToken)
             => await _snacksDbContext.Snacks
             .AsNoTracking()
-            .ToListAsync(cancellationToken: cancellationToken);
+            .ToListAsync(cancellationToken: cancellationToken) ?? new List<Snack>();
 
     }
 }

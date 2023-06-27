@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Mediator;
+﻿using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RichsSnackRack.Orders;
@@ -22,6 +18,10 @@ namespace RichsSnackRack.Pages
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
             orderDetail = await _mediator.Send(new GetOrderDetailQuery(id));
+            if(orderDetail is null)
+            {
+                return NotFound();
+            }
             return Page();
         }
     }
