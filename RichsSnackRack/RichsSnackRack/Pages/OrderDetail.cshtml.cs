@@ -18,11 +18,7 @@ namespace RichsSnackRack.Pages
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
             orderDetail = await _mediator.Send(new GetOrderDetailQuery(id));
-            if(orderDetail is null)
-            {
-                return NotFound();
-            }
-            return Page();
+            return orderDetail is null ? NotFound() : Page();
         }
     }
 }
