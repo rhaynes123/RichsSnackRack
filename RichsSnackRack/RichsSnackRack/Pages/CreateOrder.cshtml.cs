@@ -21,24 +21,22 @@ namespace RichsSnackRack.Pages
             _mediator = mediator;
         }
         [BindProperty]
-        public Snack snack { get; set; } = default!; 
+        public Snack Snack { get; set; } = default!; 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id is null)
+            switch (id)
             {
-                return RedirectToPage("./Index");
+                case null:
+                    return RedirectToPage("./Index");
+                default:
+                    Snack? snack = await _mediator.Send(new GetSnackByIdQuery((int)id));
+                    return snack is null ? RedirectToPage("./Index") : InitPage(snack);
             }
-            Snack? snack = await _mediator.Send(new GetSnackByIdQuery((int)id));
-            if (snack is null)
-            {
-                return RedirectToPage("./Index");
-            }
-            this.snack = snack;
-            return Page();
+            
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid || snack is null || snack == default)
+            if (!ModelState.IsValid || Snack is null || Snack == default)
             {
                 ModelState.AddModelError(string.Empty, "Model Invalid");
                 return Page();
@@ -46,7 +44,7 @@ namespace RichsSnackRack.Pages
             Order order;
             try
             {
-                order = await _mediator.Send(new CreateOrderCommand(snack));
+                order = await _mediator.Send(new CreateOrderCommand(Snack));
             }
             catch (Exception ex)
             {
@@ -55,6 +53,11 @@ namespace RichsSnackRack.Pages
             }
 
             return RedirectToPage("./OrderConfirmation", new { id = order.Id });
+        }
+        private IActionResult InitPage(Snack snack)
+        {
+            Snack = snack;
+            return Page();
         }
     }
 }
