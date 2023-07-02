@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RichsSnackRack.Persistence;
 
@@ -10,9 +11,11 @@ using RichsSnackRack.Persistence;
 namespace RichsSnackRack.Migrations
 {
     [DbContext(typeof(SnackRackDbContext))]
-    partial class SnacksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230702183714_AddingOrderTotalToOrderDetailView")]
+    partial class AddingOrderTotalToOrderDetailView
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

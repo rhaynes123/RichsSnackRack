@@ -35,6 +35,7 @@ namespace RichsSnackRack.Persistence;
                 entity.HasKey(order => order.Id);
                 entity.Property(order => order.SnackId);
                 entity.Property(order => order.OrderDate);
+                entity.Property(order => order.OrderTotal);
                 entity.Property(order => order.OrderStatus)
                 .HasConversion<int>();
             });
@@ -45,6 +46,7 @@ namespace RichsSnackRack.Persistence;
                 entity.Property(order => order.Name);
                 entity.Property(order => order.Price);
                 entity.Property(order => order.OrderDate);
+                entity.Property(order => order.OrderTotal);
                 entity.Property(order => order.OrderStatus)
                 .HasConversion<int>();
             });

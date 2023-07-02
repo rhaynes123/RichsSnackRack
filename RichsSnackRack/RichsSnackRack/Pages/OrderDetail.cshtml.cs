@@ -14,7 +14,7 @@ namespace RichsSnackRack.Pages
             _mediator = mediator;
         }
         [BindProperty]
-        public OrderDetail orderDetail { get; set; } = default!;
+        public OrderDetail orderDetail { get; private set; } = default!;
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
             orderDetail = await _mediator.Send(new GetOrderDetailQuery(id));

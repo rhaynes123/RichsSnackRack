@@ -12,7 +12,7 @@ namespace RichsSnackRack.Orders
     public sealed class OrderRepository : IOrderRepository
 	{
         private readonly SnackRackDbContext _snacksDbContext;
-        private const string OrderDetailViewQuery = "SELECT od.Id, od.`Name`, od.Price, od.OrderStatus, od.OrderDate FROM OrderDetails od";
+        private const string OrderDetailViewQuery = "SELECT od.Id, od.`Name`, od.Price, od.OrderTotal, od.OrderStatus, od.OrderDate FROM OrderDetails od";
         public OrderRepository(SnackRackDbContext snackRackDbContext)
 		{
             _snacksDbContext = snackRackDbContext;
@@ -23,7 +23,8 @@ namespace RichsSnackRack.Orders
             var order = new Order
             {
                 SnackId = snack.Id,
-                OrderStatus = Models.Enums.OrderStatus.Completed
+                OrderStatus = Models.Enums.OrderStatus.Completed,
+                OrderTotal = snack.Price
             };
 
             await _snacksDbContext.Orders.AddAsync(order, cancellationToken: cancellationToken);

@@ -15,7 +15,10 @@ namespace RichsSnackRack.Orders.Models
 		[Required, Range(1, int.MaxValue, ErrorMessage = "The field {0} must be greater than {1}.")]
 		public required int SnackId { get; set; }
 		public required OrderStatus OrderStatus { get; set; } = OrderStatus.Completed;
-		[Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Required, Range(0, 100), DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")]
+        public required decimal OrderTotal { get; set; }
+        [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime OrderDate { get; set; } = DateTime.Now;
     }
 }

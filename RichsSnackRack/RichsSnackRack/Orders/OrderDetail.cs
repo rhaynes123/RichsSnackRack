@@ -15,6 +15,7 @@ namespace RichsSnackRack.Orders
         [Column(TypeName = "decimal(18, 2)")]
         public required decimal Price { get; set; }
         public required OrderDetailStatus OrderStatus { get; set; }
+        public required decimal OrderTotal { get; set; }
         [Required]
         public DateTime OrderDate { get; set; }
     }

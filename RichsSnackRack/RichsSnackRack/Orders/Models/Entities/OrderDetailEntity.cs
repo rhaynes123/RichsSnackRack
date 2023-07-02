@@ -14,6 +14,7 @@ namespace RichsSnackRack.Orders.Models.Entities
         [Column(TypeName = "decimal(18, 2)")]
         public required decimal Price { get; set; }
         public required Enums.OrderStatus OrderStatus { get; set; }
+        public required decimal OrderTotal { get; set; }
         [Required]
         public DateTime OrderDate { get; set; }
     }

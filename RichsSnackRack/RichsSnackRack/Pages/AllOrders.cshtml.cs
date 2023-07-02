@@ -16,7 +16,7 @@ namespace RichsSnackRack.Pages
             _mediator = mediator;
         }
         [BindProperty]
-        public IReadOnlyList<OrderDetail> orderDetails { get; set; } = ImmutableList<OrderDetail>.Empty;
+        public IReadOnlyList<OrderDetail> orderDetails { get; private set; } = ImmutableList<OrderDetail>.Empty;
 
         public async Task<IActionResult> OnGetAsync()
         {
