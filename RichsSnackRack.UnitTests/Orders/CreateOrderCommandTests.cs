@@ -15,7 +15,7 @@ namespace RichsSnackRack.UnitTests.Orders
         public CreateOrderCommandTests()
 		{
 			snack = new Snack { Name = "Wing Dings", Price = 12.90m , Id = 2};
-            order = new Order { OrderStatus = RichsSnackRack.Orders.Models.Enums.OrderStatus.NA, SnackId = snack.Id, };
+            order = new Order { OrderStatus = RichsSnackRack.Orders.Models.Enums.OrderStatus.NA, SnackId = snack.Id, OrderTotal = 0};
 			mocRepo.Setup(repo => repo.CreateOrder(snack,It.IsAny<CancellationToken>())).ReturnsAsync(order);
         }
 		[Fact]

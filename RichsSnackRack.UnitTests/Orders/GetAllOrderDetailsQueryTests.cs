@@ -11,12 +11,14 @@ public class GetAllOrderDetailsQueryTests
 
     public GetAllOrderDetailsQueryTests()
     {
-        var orders = new List<Order>
+        var orders = new List<OrderDetail>
         {
-            new Order
+            new OrderDetail()
             {
-                SnackId = 1,
-                OrderStatus = RichsSnackRack.Orders.Models.Enums.OrderStatus.NA
+                Name = "Not Found",
+                Price = 0,
+                OrderStatus = OrderDetailStatus.Completed,
+                OrderTotal = 0
             }
         };
 
