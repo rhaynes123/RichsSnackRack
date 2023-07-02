@@ -16,12 +16,16 @@ namespace RichsSnackRack.Pages
 	public class CreateOrderModel : PageModel
     {
         private readonly IMediator _mediator;
+        private readonly Func<Snack?, PageResult> initPage;
+
         public CreateOrderModel(IMediator mediator)
         {
             _mediator = mediator;
+            initPage = (Snack? snack) => { Snack = snack!; return Page(); };
         }
         [BindProperty]
-        public Snack Snack { get; set; } = default!; 
+        public Snack Snack { get; set; } = default!;
+       
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             switch (id)
@@ -30,7 +34,7 @@ namespace RichsSnackRack.Pages
                     return RedirectToPage("./Index");
                 default:
                     Snack? snack = await _mediator.Send(new GetSnackByIdQuery((int)id));
-                    return snack is null ? RedirectToPage("./Index") : InitPage(snack);
+                    return snack is null ? RedirectToPage("./Index") : initPage(snack);
             }
             
         }
@@ -53,11 +57,6 @@ namespace RichsSnackRack.Pages
             }
 
             return RedirectToPage("./OrderConfirmation", new { id = order.Id });
-        }
-        private IActionResult InitPage(Snack snack)
-        {
-            Snack = snack;
-            return Page();
         }
     }
 }
