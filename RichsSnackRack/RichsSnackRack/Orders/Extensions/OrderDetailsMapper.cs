@@ -9,7 +9,7 @@ namespace RichsSnackRack.Orders.Extensions
         {
             return new OrderDetail
 			{
-                Id = orderDetailEntity.Id,
+                Id = new OrderId(orderDetailEntity.Id),
                 Price = orderDetailEntity.Price,
                 Name = orderDetailEntity.Name,
                 OrderStatus = OrderDetailStatus.All.Single(status => status.Id == (int)orderDetailEntity.OrderStatus),

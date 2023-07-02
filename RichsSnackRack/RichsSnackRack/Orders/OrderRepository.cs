@@ -40,13 +40,20 @@ namespace RichsSnackRack.Orders
                 .Select(order => order.ToDetail())
                 .ToListAsync(cancellationToken: cancellationToken);
         }
-        public async Task<OrderDetail?> GetOrderDetailById(Guid id, CancellationToken cancellationToken)
+        public async Task<OrderDetail> GetOrderDetailById(Guid id, CancellationToken cancellationToken)
         {
             OrderDetailEntity? orderDetailEntity = await _snacksDbContext
                 .OrderDetails
                 .FromSqlRaw(OrderDetailViewQuery)
                 .FirstOrDefaultAsync(orderDetail => orderDetail.Id == id, cancellationToken);
-            return orderDetailEntity?.ToDetail();
+            
+            return orderDetailEntity is not null ? orderDetailEntity.ToDetail() : new OrderDetail()
+            {
+                Name = "Not Found",
+                Price = 0,
+                OrderStatus = OrderDetailStatus.Completed,
+                OrderTotal = 0
+            };
         }
     }
 }

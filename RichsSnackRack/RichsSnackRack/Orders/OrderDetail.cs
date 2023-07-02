@@ -5,10 +5,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RichsSnackRack.Orders
 {
+    public readonly record struct OrderId
+    {
+        public Guid Value { get; }
+        public OrderId(Guid Id)
+        {
+            if(Id == Guid.Empty || Id.Equals(new Guid()))
+            {
+                ArgumentException.ThrowIfNullOrEmpty(nameof(Id));
+            }
+            Value = Id;   
+        }
+    }
 	public sealed record OrderDetail
 	{
         [Key]
-        public Guid Id { get; set; }
+        public OrderId Id { get; set; }
         [Required(AllowEmptyStrings = false), StringLength(100)]
         public required string Name { get; set; }
         [Required, Range(1, 100), DataType(DataType.Currency)]
