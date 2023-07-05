@@ -9,7 +9,6 @@ const orderLinkToCopy = document.querySelector("#orderDetailLink");
 const searchInput = document.getElementById('searchInput');
 const orderItemRows = document.querySelectorAll("tbody tr");
 const orderStatuses = document.querySelectorAll('.orderStatus');
-const adjustPriceBtn = document.getElementById("adjustPriceBtn");
 // TODO the selectors need to have the values passed in so other things can get selected
 
 // Order Confirmation
@@ -40,12 +39,10 @@ if (searchInput && orderItemRows) {
     });
 };
 
-if (adjustPriceBtn) {
-    adjustPriceBtn.addEventListener('click', () => {
-        let snackPrice = document.getElementById('Snack_Price');
-        snackPrice.removeAttribute('readonly')
-    });
-};
+
+
+
+
 orderStatuses.forEach(status => {
     switch (status.innerText) {
         case OrderStatues.Completed:

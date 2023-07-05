@@ -32,7 +32,9 @@
             </div>
         </form>
         <div class="form-group">
-            <button class="btn btn-danger" id="adjustPriceBtn">Adjust Price</button>
+            <h3>Discount Buttons</h3>
+            <button class="btn btn-warning" id="adjustPriceBtn">Adjust Price</button>
+            <button class="btn btn-warning" id="zeroPriceBtn">Free Give Away</button>
         </div>
     </div>
 </div>
@@ -45,3 +47,21 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
+<script>
+
+    const adjustPriceBtn = document.getElementById("adjustPriceBtn");
+    if (adjustPriceBtn) {
+        adjustPriceBtn.addEventListener('click', () => {
+            let snackPrice = document.getElementById('Snack_Price');
+            snackPrice.removeAttribute('readonly')
+        });
+    };
+
+    const zeroPriceBtn = document.getElementById("zeroPriceBtn");
+    if (zeroPriceBtn) {
+        zeroPriceBtn.addEventListener('click', () => {
+            let snackPrice = document.getElementById('Snack_Price');
+            snackPrice.value = 0
+        });
+    };
+</script>
