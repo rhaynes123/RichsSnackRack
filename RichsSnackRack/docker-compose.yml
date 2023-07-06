@@ -13,7 +13,7 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: 'Snacks'
+      MYSQL_DATABASE: 'SnackRack'
       MYSQL_ROOT_PASSWORD: 'Password1'
     volumes:
     - localdbdata:/var/lib/mysql

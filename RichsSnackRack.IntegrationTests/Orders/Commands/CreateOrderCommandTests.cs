@@ -7,21 +7,22 @@ using RichsSnackRack.Orders.Models;
 
 namespace RichsSnackRack.IntegrationTests.Orders.Commands
 {
-	public class CreateOrderCommandTests: IClassFixture<IntegrationDbContextFixture>
+	public class CreateOrderCommandTests: IClassFixture<TestWebAppFactory>
 	{
-		private readonly IntegrationDbContextFixture _contextFixture;
-		private readonly IOrderRepository orderRepository;
-        public CreateOrderCommandTests(IntegrationDbContextFixture contextFixture)
+		private readonly TestWebAppFactory testWebAppFactory;
+		private IOrderRepository orderRepository;
+        public CreateOrderCommandTests(TestWebAppFactory WebAppFactory)
 		{
-			_contextFixture = contextFixture;
-			orderRepository = new OrderRepository(_contextFixture.dbContext);
+			testWebAppFactory = WebAppFactory;
+            orderRepository = new OrderRepository(testWebAppFactory.SnackDbContext);
         }
 
 		[Fact]
 		public async Task HandlerWasSuccessful()
 		{
-			//Arrange
-			Snack snack = new()
+
+            //Arrange
+            Snack snack = new()
 			{
 				Name = "Buffalo Wings",
 				Price = 6.99m
@@ -32,7 +33,7 @@ namespace RichsSnackRack.IntegrationTests.Orders.Commands
             //Act
             var result = await _sut.Handle(createCommand, default);
 			//Assert
-			_contextFixture.dbContext
+			testWebAppFactory.SnackDbContext
 				.Orders
 				.Should()
 				.HaveCountGreaterThan(0);
