@@ -1,6 +1,8 @@
 # RichsSnackRack
 This Project is a .Net sandbox for testing new technologies, design principles, paradigms, packages etc. asl well as documenting any challenges along the way.
 
+[Docker Image](https://hub.docker.com/r/rhaynes123/richssnackrack)
+
 # Functional Programming
 For reference as a personal goal this project will also be an attempt to learn functional programming so as much as possible functional programming principles will be used at least up to my understanding of the concepts.
 

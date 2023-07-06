@@ -11,6 +11,7 @@ using RichsSnackRack.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
+using DotNet.Testcontainers.Networks;
 
 namespace RichsSnackRack.IntegrationTests
 {
@@ -21,8 +22,14 @@ namespace RichsSnackRack.IntegrationTests
         public SnackRackDbContext SnackDbContext { get; set; } = default!;
 
         private DbConnection _dbConnection = default!;
+        private readonly IDockerNetwork _network;
+        private readonly CancellationTokenSource _cts = new(TimeSpan.FromMinutes(1));
         public TestWebAppFactory()
         {
+            _network = new TestcontainersNetworkBuilder()
+           .WithName(Guid.NewGuid().ToString("D"))
+           .Build();
+
             _dbContainer
         = new TestcontainersBuilder<MySqlTestcontainer>()
             .WithDatabase(new MsSqlTestcontainerConfiguration
@@ -31,7 +38,7 @@ namespace RichsSnackRack.IntegrationTests
                 Password = "Password1"
             })
             .WithImage("mysql:8.0")
-           .WithEnvironment("MYSQL_ROOT_PASSWORD", "Password1")
+            .WithEnvironment("MYSQL_ROOT_PASSWORD", "Password1")
             .Build();
         }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -52,6 +59,9 @@ namespace RichsSnackRack.IntegrationTests
 
         public async Task InitializeAsync()
         {
+            await _network.CreateAsync(_cts.Token)
+            .ConfigureAwait(false);
+
             await _dbContainer.StartAsync();
 
             HttpClient = CreateClient();
