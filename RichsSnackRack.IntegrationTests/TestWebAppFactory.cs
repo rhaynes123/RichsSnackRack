@@ -17,38 +17,55 @@ namespace RichsSnackRack.IntegrationTests
 {
     public class TestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
+        private const ushort HttpPort = 80;
         private readonly TestcontainerDatabase _dbContainer;
+        private readonly IDockerNetwork _network;
+
+        private readonly IDockerContainer _appContainer;
+        private readonly CancellationTokenSource _cancellationTokenSource = new(TimeSpan.FromMinutes(1));
+
         public HttpClient HttpClient { get; set; } = default!;
         public SnackRackDbContext SnackDbContext { get; set; } = default!;
 
         private DbConnection _dbConnection = default!;
-        private readonly IDockerNetwork _network;
-        private readonly CancellationTokenSource _cts = new(TimeSpan.FromMinutes(1));
+        
         public TestWebAppFactory()
         {
             _network = new TestcontainersNetworkBuilder()
            .WithName(Guid.NewGuid().ToString("D"))
            .Build();
 
-            _dbContainer
-        = new TestcontainersBuilder<MySqlTestcontainer>()
+            _dbContainer = new TestcontainersBuilder<MySqlTestcontainer>()
             .WithDatabase(new MsSqlTestcontainerConfiguration
             {
-                Database = "Snacks",
+                Database = "SnackRack",
                 Password = "Password1"
             })
+            .WithHostname("localhost")
             .WithImage("mysql:8.0")
-            .WithEnvironment("MYSQL_ROOT_PASSWORD", "Password1")
+            //.WithEnvironment("MYSQL_USER","root")
+            //.WithEnvironment("MYSQL_ROOT_PASSWORD", "Password1")
+            .WithEnvironment("MYSQL_ALLOW_EMPTY_PASSWORD", "true")
+            .WithNetwork(_network)
+            .WithNetworkAliases("db")
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(3306))// Without this the image may hang and timeout
             .Build();
+
+            _appContainer = new TestcontainersBuilder<TestcontainersContainer>()
+                .WithImage("richssnackrack")
+                .WithNetwork(_network)
+                .WithPortBinding(HttpPort, true)
+                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(HttpPort))
+                .Build();
         }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            string connectionString = _dbContainer.ConnectionString;
+            builder.UseEnvironment("CONTAINER");
             builder.ConfigureTestServices(services =>
             {
-                string connectionString = _dbContainer.ConnectionString;
-
-                //services.RemoveAll<SnackRackDbContext>();
-                //services.RemoveAll<DbContextOptions<SnackRackDbContext>>();
+                services.RemoveAll<SnackRackDbContext>();
+                services.RemoveAll<DbContextOptions<SnackRackDbContext>>();
                 services.AddMediator(options: options => options.ServiceLifetime = ServiceLifetime.Scoped);
                 services.AddDbContext<SnackRackDbContext>(options =>
                 {
@@ -59,10 +76,11 @@ namespace RichsSnackRack.IntegrationTests
 
         public async Task InitializeAsync()
         {
-            await _network.CreateAsync(_cts.Token)
-            .ConfigureAwait(false);
+            await _network.CreateAsync(_cancellationTokenSource.Token);
 
-            await _dbContainer.StartAsync();
+            await _dbContainer.StartAsync(_cancellationTokenSource.Token);
+
+            await _appContainer.StartAsync(_cancellationTokenSource.Token);
 
             HttpClient = CreateClient();
 
