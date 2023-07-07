@@ -35,6 +35,7 @@
             <h3>Discount Buttons</h3>
             <button class="btn btn-warning" id="adjustPriceBtn">Adjust Price</button>
             <button class="btn btn-warning" id="zeroPriceBtn">Free Give Away</button>
+            <button class="btn btn-warning" id="halfOffPriceBtn">Half off</button>
         </div>
     </div>
 </div>
@@ -51,17 +52,39 @@
 
     const adjustPriceBtn = document.getElementById("adjustPriceBtn");
     if (adjustPriceBtn) {
-        adjustPriceBtn.addEventListener('click', () => {
-            let snackPrice = document.getElementById('Snack_Price');
-            snackPrice.removeAttribute('readonly')
+        adjustPriceBtn.addEventListener('click', (event) => {
+            applyDiscount(event.target.getAttribute('id'))
         });
     };
 
     const zeroPriceBtn = document.getElementById("zeroPriceBtn");
     if (zeroPriceBtn) {
-        zeroPriceBtn.addEventListener('click', () => {
-            let snackPrice = document.getElementById('Snack_Price');
-            snackPrice.value = 0
+        zeroPriceBtn.addEventListener('click', (event) => {
+            applyDiscount(event.target.getAttribute('id'))
         });
     };
+
+    const halfOffPriceBtn = document.getElementById("halfOffPriceBtn");
+    if (halfOffPriceBtn) {
+        halfOffPriceBtn.addEventListener('click', (event) => {
+            applyDiscount(event.target.getAttribute('id'))
+        });
+    };
+
+    function applyDiscount(discountButtonName) {
+        const snackPrice = document.getElementById('Snack_Price');
+        switch (discountButtonName) {
+            case "adjustPriceBtn":
+                snackPrice.removeAttribute('readonly');
+                break;
+            case "zeroPriceBtn":
+                snackPrice.value = 0
+                break;
+            case "halfOffPriceBtn":
+                snackPrice.value = (snackPrice.value / 2).toFixed(2);
+                break;
+            default:
+                break;
+        };
+    }
 </script>
