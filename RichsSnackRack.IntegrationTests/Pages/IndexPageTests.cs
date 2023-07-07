@@ -56,8 +56,8 @@ namespace RichsSnackRack.IntegrationTests.Pages
 		public async Task IndexReturnsOk()
 		{
             //Arrange & Act
-            using var httpClient = new HttpClient();
-            httpClient.BaseAddress = new UriBuilder("http", _appContainer.Hostname, _appContainer.GetMappedPublicPort(HttpPort)).Uri;
+            //using var httpClient = new HttpClient();
+           // httpClient.BaseAddress = new UriBuilder("http", _appContainer.Hostname, _appContainer.GetMappedPublicPort(HttpPort)).Uri;
 
             var response = await Client.GetAsync("/Index");
             response.EnsureSuccessStatusCode(); // Status Code 200-299

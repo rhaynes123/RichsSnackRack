@@ -11,8 +11,8 @@ For reference as a personal goal this project will also be an attempt to learn f
 
 The ability to add Docker support for any .net core project to start with is pretty straight for to start because both Visual Studio and Studio for Mac have convient add Docker Support buttons which will default add docker.
 
-However what is a struggle is any time you need to adjust the Yaml file for docker compose. I'm not awful at using VS For Mac for that so I gave it a shot. I based a lot of wha I need from here [Adding MySQL to ASP.NET Core App With Docker Compose](https://code-maze.com/mysql-aspnetcore-docker-compose/), here [How to Create a MySql Instance with Docker Compose](https://medium.com/@chrischuck35/how-to-create-a-mysql-instance-with-docker-compose-1598f3cc1bee)
-
+However what is a struggle is any time you need to adjust the Yaml file for docker compose. I'm not awful at using VS For Mac for that so I gave it a shot. I based a lot of what I need from here [Adding MySQL to ASP.NET Core App With Docker Compose](https://code-maze.com/mysql-aspnetcore-docker-compose/), here [How to Create a MySql Instance with Docker Compose](https://medium.com/@chrischuck35/how-to-create-a-mysql-instance-with-docker-compose-1598f3cc1bee).
+As well as [How to Start MySQL in Docker Container](https://www.appsdeveloperblog.com/how-to-start-mysql-in-docker-container/) which is a good guide for setting up docker images of MySQL as well as commands for validating the container.
 
 My first attempt at building the compose from VS for Mac came out like this.
 ![Docker Compose First Try](Images/dbenvironmentsmisplaced.png)

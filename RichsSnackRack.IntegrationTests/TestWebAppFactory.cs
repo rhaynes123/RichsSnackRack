@@ -36,19 +36,19 @@ namespace RichsSnackRack.IntegrationTests
            .Build();
 
             _dbContainer = new TestcontainersBuilder<MySqlTestcontainer>()
-            .WithDatabase(new MsSqlTestcontainerConfiguration
+            .WithDatabase(new MySqlTestcontainerConfiguration
             {
                 Database = "SnackRack",
-                Password = "Password1"
+                Password = "Password1",
+                Username = "root"
             })
-            .WithHostname("localhost")
+            
             .WithImage("mysql:8.0")
             //.WithEnvironment("MYSQL_USER","root")
             //.WithEnvironment("MYSQL_ROOT_PASSWORD", "Password1")
             .WithEnvironment("MYSQL_ALLOW_EMPTY_PASSWORD", "true")
             .WithNetwork(_network)
             .WithNetworkAliases("db")
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(3306))// Without this the image may hang and timeout
             .Build();
 
             _appContainer = new TestcontainersBuilder<TestcontainersContainer>()
@@ -64,9 +64,10 @@ namespace RichsSnackRack.IntegrationTests
             builder.UseEnvironment("CONTAINER");
             builder.ConfigureTestServices(services =>
             {
+
                 services.RemoveAll<SnackRackDbContext>();
                 services.RemoveAll<DbContextOptions<SnackRackDbContext>>();
-                services.AddMediator(options: options => options.ServiceLifetime = ServiceLifetime.Scoped);
+                //services.AddMediator(options: options => options.ServiceLifetime = ServiceLifetime.Scoped);
                 services.AddDbContext<SnackRackDbContext>(options =>
                 {
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
@@ -79,8 +80,8 @@ namespace RichsSnackRack.IntegrationTests
             await _network.CreateAsync(_cancellationTokenSource.Token);
 
             await _dbContainer.StartAsync(_cancellationTokenSource.Token);
-
-            await _appContainer.StartAsync(_cancellationTokenSource.Token);
+            string connectionString = _dbContainer.ConnectionString;
+            //await _appContainer.StartAsync(_cancellationTokenSource.Token);
 
             HttpClient = CreateClient();
 
@@ -89,8 +90,8 @@ namespace RichsSnackRack.IntegrationTests
             SnackDbContext = context;
             await context.Database.MigrateAsync();
 
-            _dbConnection = new SqlConnection(_dbContainer.ConnectionString);
-            await _dbConnection.OpenAsync();
+            //_dbConnection = new SqlConnection(_dbContainer.ConnectionString);
+           // await _dbConnection.OpenAsync();
         }
 
         public async new Task DisposeAsync()
