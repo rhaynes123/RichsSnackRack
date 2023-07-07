@@ -17,18 +17,18 @@ namespace RichsSnackRack.IntegrationTests.Menu
                 return new Snack { Id = random.Next(), Price = 5.99m, Name = "Wings" };
             });
 
-            contextFixture._snackDbContext.Snacks.AddRange(snacks);
+            contextFixture.SnackDbContext.Snacks.AddRange(snacks);
 
-            contextFixture._snackDbContext.SaveChanges();
+            contextFixture.SnackDbContext.SaveChanges();
         }
 
 		[Fact]
 		public async Task GetSnackByIdReturns()
 		{
 			//Arrange
-			int lastSnack = _contextFixture._snackDbContext.Snacks.OrderBy(snack => snack.Id).Last().Id;
+			int lastSnack = _contextFixture.SnackDbContext.Snacks.OrderBy(snack => snack.Id).Last().Id;
             GetSnackByIdQuery query = new(lastSnack);
-			GetSnackByIdQueryHandler _sut = new(_contextFixture._snackDbContext);
+			GetSnackByIdQueryHandler _sut = new(_contextFixture.SnackDbContext);
 			//Act
 			var result = await _sut.Handle(query, default);
 			//Assert

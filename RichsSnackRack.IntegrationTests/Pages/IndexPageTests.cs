@@ -1,20 +1,13 @@
-﻿using System;
-using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Configurations;
-using DotNet.Testcontainers.Containers;
-using DotNet.Testcontainers.Networks;
-using Microsoft.AspNetCore.Mvc.Testing;
-
-namespace RichsSnackRack.IntegrationTests.Pages
+﻿namespace RichsSnackRack.IntegrationTests.Pages
 {
 	public class IndexPageTests: IClassFixture<TestWebAppFactory> 
     {
-        private readonly TestWebAppFactory _factory;
-        private HttpClient Client { get; set; }
+        private readonly TestWebAppFactory Factory;
+        private readonly HttpClient Client;
         public IndexPageTests(TestWebAppFactory factory)
 		{
-            _factory = factory;
-            Client = _factory.CreateClient();
+            Factory = factory;
+            Client = Factory.HttpClient;
         }
 
 		[Fact]
