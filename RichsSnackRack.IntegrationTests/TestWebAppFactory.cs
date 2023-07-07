@@ -17,17 +17,12 @@ namespace RichsSnackRack.IntegrationTests
 {
     public class TestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        private const ushort HttpPort = 80;
         private readonly TestcontainerDatabase _dbContainer;
         private readonly IDockerNetwork _network;
-
-        private readonly IDockerContainer _appContainer;
         private readonly CancellationTokenSource _cancellationTokenSource = new(TimeSpan.FromMinutes(1));
 
         public HttpClient HttpClient { get; set; } = default!;
-        public SnackRackDbContext SnackDbContext { get; set; } = default!;
-
-        private DbConnection _dbConnection = default!;
+        public SnackRackDbContext _snackDbContext { get; set; } = default!;
         
         public TestWebAppFactory()
         {
@@ -44,19 +39,12 @@ namespace RichsSnackRack.IntegrationTests
             })
             
             .WithImage("mysql:8.0")
-            //.WithEnvironment("MYSQL_USER","root")
             //.WithEnvironment("MYSQL_ROOT_PASSWORD", "Password1")
             .WithEnvironment("MYSQL_ALLOW_EMPTY_PASSWORD", "true")
             .WithNetwork(_network)
             .WithNetworkAliases("db")
             .Build();
 
-            _appContainer = new TestcontainersBuilder<TestcontainersContainer>()
-                .WithImage("richssnackrack")
-                .WithNetwork(_network)
-                .WithPortBinding(HttpPort, true)
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(HttpPort))
-                .Build();
         }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -72,7 +60,12 @@ namespace RichsSnackRack.IntegrationTests
                 {
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 });
+
+                var provider = services.BuildServiceProvider();
+                _snackDbContext = provider.GetRequiredService<SnackRackDbContext>();
+
             });
+            
         }
 
         public async Task InitializeAsync()
@@ -80,18 +73,13 @@ namespace RichsSnackRack.IntegrationTests
             await _network.CreateAsync(_cancellationTokenSource.Token);
 
             await _dbContainer.StartAsync(_cancellationTokenSource.Token);
-            string connectionString = _dbContainer.ConnectionString;
-            //await _appContainer.StartAsync(_cancellationTokenSource.Token);
 
             HttpClient = CreateClient();
 
             using var scope = Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<SnackRackDbContext>();
-            SnackDbContext = context;
+            //_snackDbContext = context;
             await context.Database.MigrateAsync();
-
-            //_dbConnection = new SqlConnection(_dbContainer.ConnectionString);
-           // await _dbConnection.OpenAsync();
         }
 
         public async new Task DisposeAsync()

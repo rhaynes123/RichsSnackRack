@@ -5,10 +5,10 @@ using RichsSnackRack.Menu.Queries;
 
 namespace RichsSnackRack.IntegrationTests.Menu
 {
-	public class GetSnackByIdQueryTests: IClassFixture<IntegrationDbContextFixture>
+	public class GetSnackByIdQueryTests: IClassFixture<TestWebAppFactory>
 	{
-		private readonly IntegrationDbContextFixture _contextFixture;
-		public GetSnackByIdQueryTests(IntegrationDbContextFixture contextFixture)
+		private readonly TestWebAppFactory _contextFixture;
+		public GetSnackByIdQueryTests(TestWebAppFactory contextFixture)
 		{
 			_contextFixture = contextFixture;
             var snacks = Enumerable.Range(1, 5).Select(id =>
@@ -17,18 +17,18 @@ namespace RichsSnackRack.IntegrationTests.Menu
                 return new Snack { Id = random.Next(), Price = 5.99m, Name = "Wings" };
             });
 
-            contextFixture.dbContext.Snacks.AddRange(snacks);
+            contextFixture._snackDbContext.Snacks.AddRange(snacks);
 
-            contextFixture.dbContext.SaveChanges();
+            contextFixture._snackDbContext.SaveChanges();
         }
 
 		[Fact]
 		public async Task GetSnackByIdReturns()
 		{
 			//Arrange
-			int lastSnack = _contextFixture.dbContext.Snacks.Last().Id;
+			int lastSnack = _contextFixture._snackDbContext.Snacks.OrderBy(snack => snack.Id).Last().Id;
             GetSnackByIdQuery query = new(lastSnack);
-			GetSnackByIdQueryHandler _sut = new(_contextFixture.dbContext);
+			GetSnackByIdQueryHandler _sut = new(_contextFixture._snackDbContext);
 			//Act
 			var result = await _sut.Handle(query, default);
 			//Assert
