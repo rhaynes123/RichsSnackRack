@@ -12,7 +12,7 @@ namespace RichsSnackRack.PerformanceTests.Menu.QueryTests
     [MemoryDiagnoser]
     [MaxColumn]
     [MinColumn]
-    public sealed class GetAllMenuQueryTests
+    public class GetAllMenuQueryTests
     {
         private SnackRackDbContext DbContext;
         public GetAllMenuQueryTests()

@@ -8,7 +8,7 @@ using RichsSnackRack.Persistence;
 using Xunit;
 
 //Console.WriteLine("Hello, World!");
-//BenchmarkSwitcher.FromAssembly(assembly: typeof(QueryTests).Assembly).Run(args);
+BenchmarkSwitcher.FromAssembly(assembly: typeof(GetAllMenuQueryTests).Assembly).Run(args);
 
-var summary = BenchmarkRunner.Run<GetAllMenuQueryTests>();
+//var summary = BenchmarkRunner.Run<GetAllMenuQueryTests>();
 
