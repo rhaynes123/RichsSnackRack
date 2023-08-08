@@ -13,9 +13,10 @@ string mySqlConnectionString = (Environment.GetEnvironmentVariable("CONTAINER") 
 
 builder.Services.AddDbContext<SnackRackDbContext>((serviceProvider, optionsBuilder) =>
 {
+    var performanceLogger = serviceProvider.GetRequiredService<ILogger<PerformanceInterceptor>>();
     optionsBuilder.UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString), optionsBuilder => optionsBuilder
         .EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null));
-
+    optionsBuilder.AddInterceptors(new PerformanceInterceptor(performanceLogger));
     optionsBuilder.EnableDetailedErrors();
     optionsBuilder.EnableSensitiveDataLogging();
 });
