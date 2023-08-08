@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace RichsSnackRack.Persistence
 {
-	public class PerformanceInterceptor: DbCommandInterceptor
+	public sealed class PerformanceInterceptor: DbCommandInterceptor
 	{
         private readonly ILogger<PerformanceInterceptor> _logger;
 		public PerformanceInterceptor(ILogger<PerformanceInterceptor> logger)
