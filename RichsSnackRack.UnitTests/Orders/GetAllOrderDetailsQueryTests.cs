@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using RichsSnackRack.Orders;
 using RichsSnackRack.Orders.Models;
 using RichsSnackRack.Orders.Queries;
@@ -7,7 +7,7 @@ namespace RichsSnackRack.UnitTests;
 
 public class GetAllOrderDetailsQueryTests
 {
-    private readonly Mock<IOrderRepository> mocRepo = new();
+    private readonly IOrderRepository mocRepo = Substitute.For<IOrderRepository>();
 
     public GetAllOrderDetailsQueryTests()
     {
@@ -22,7 +22,7 @@ public class GetAllOrderDetailsQueryTests
             }
         };
 
-        mocRepo.Setup(mock => mock.GetAllOrders(It.IsAny<CancellationToken>())).ReturnsAsync(orders);
+        mocRepo.GetAllOrders(cancellationToken: Arg.Any<CancellationToken>()).Returns(orders);
 
     }
     [Fact]
@@ -30,7 +30,7 @@ public class GetAllOrderDetailsQueryTests
     {
         //Arrange
         GetAllOrderDetailsQuery query = new();
-        GetAllOrderDetailsQueryHandler _sut = new(mocRepo.Object);
+        GetAllOrderDetailsQueryHandler _sut = new(mocRepo);
         //Act
         var orders = await _sut.Handle(query, default);
         //Assert
