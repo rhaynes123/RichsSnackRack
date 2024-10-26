@@ -1,0 +1,74 @@
+@page
+@model RichsSnackRack.Pages.Sales
+
+@{
+    decimal GetTotals(int snack = default)
+    {
+        var orderedValues = Model.SoldOrders
+            .Values
+            .SelectMany(val => val);
+        if (snack is not 0)
+        {
+            return orderedValues
+                .Where(ord => ord.SnackId.Equals(snack))
+                .Select(v => v.OrderTotal)
+                .Sum();
+        }
+        var snackOrders = orderedValues.Select(v => v.OrderTotal);
+        return snackOrders.Sum();
+    }
+}
+
+<!DOCTYPE html>
+
+<html lang="">
+<head>
+    <title>Total Sales : @GetTotals()</title>
+</head>
+<body>
+<div>
+    <section id="SalesBySnack">
+
+        <div id="salesTable">
+            <table class="table table-borded table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Sales By Snack</th>
+                </tr>
+                </thead>
+
+                @if (Model.SoldOrders.Count is not 0)
+                {
+                    
+                    foreach (var item in Model.SoldOrders)
+                    {
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                                    <div class="card">
+                                        <h4 class="card-title mt-3">@item.Key.Name</h4>
+                                        <img src="~/FoodImages/@item.Key.ImageUrl" class="rounded-circle" height="100" width="100" alt=""/>
+                                        <div class="meta card-text">
+                                            <a>Sales Price: @item.Key.Price</a>
+                                        </div>
+                                        <p class="card-block">
+                                            Total Sales : @GetTotals(item.Key.Id)
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    }
+                }
+
+            </table>
+        </div>
+    </section>
+  
+</div>
+</body>
+</html>
