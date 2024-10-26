@@ -20,14 +20,14 @@
             </tr>
         </thead>
 
-        @if (Model.snacks is not null && Model.snacks.Count is not 0)
+        @if (Model.snacks.Count is not 0)
         {
             foreach (var item in Model.snacks)
             {
                 <tbody>
                     <tr>
                         <td>@item.Name</td>
-                        <td><img src="~/FoodImages/@item.ImageUrl" class="rounded-circle" height="100" width="100" /></td>
+                        <td><img src="~/FoodImages/@item.ImageUrl" class="rounded-circle" height="100" width="100"  alt=""/></td>
                         <td>@item.Price</td>
                         <td><a input="submit" class="btn btn-warning" asp-page="./CreateOrder" asp-route-id="@item.Id">Order Snack</a></td>
                     </tr>

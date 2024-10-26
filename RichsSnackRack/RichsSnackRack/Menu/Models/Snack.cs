@@ -17,6 +17,7 @@ namespace RichsSnackRack.Menu.Models
         [Required,Range(0, 100), DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 2)")]
         public required decimal Price { get; set; }
+        [StringLength(100)]
         public string? ImageUrl { get; set; }
         [Required]
         public bool Active { get; set; } = true;

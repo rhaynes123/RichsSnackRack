@@ -4,7 +4,7 @@ const OrderStatues = {
     Refunded: 'Refunded',
     Cancelled: 'Cancelled'
 };
-const downloadButton = document.getElementById('downloandOrderDetailReceiptId');
+const downloadButton = document.getElementById('downloadOrderDetailReceiptId');
 const orderLinkToCopy = document.querySelector("#orderDetailLink");
 const searchInput = document.getElementById('searchInput');
 const orderItemRows = document.querySelectorAll("tbody tr");
@@ -18,14 +18,14 @@ if (orderLinkToCopy) {
         const clipboard = navigator.clipboard;
         clipboard.writeText(orderId);
     });
-};
+}
 
 if (downloadButton) {
     downloadButton.addEventListener("click", () => {
         const downloadElement = document.getElementById('orderDetailReceiptId');
         html2pdf().from(downloadElement).save();
     });
-};
+}
 
 // All Orders
 if (searchInput && orderItemRows) {
@@ -37,7 +37,7 @@ if (searchInput && orderItemRows) {
                 : (orderItemRow.style.display = "none")
         });
     });
-};
+}
 
 
 
@@ -56,5 +56,5 @@ orderStatuses.forEach(status => {
             break;
         default:
             break;
-    };
+    }
 });
