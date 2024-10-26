@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using RichsSnackRack.Orders;
 using RichsSnackRack.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container.≥
 builder.Services.AddRazorPages();
-builder.Services.AddMediator(options: option => option.ServiceLifetime = ServiceLifetime.Scoped);
+builder.Services.AddMediatR( config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+//builder.Services.AddMediator(options: option => option.ServiceLifetime = ServiceLifetime.Scoped);
 string mySqlConnectionString = (Environment.GetEnvironmentVariable("CONTAINER") == "true") == true
     ? builder.Configuration.GetConnectionString("SnackDbConnection")!
     : builder.Configuration.GetConnectionString("LocalHost")!;

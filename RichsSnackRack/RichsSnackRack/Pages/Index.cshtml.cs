@@ -1,5 +1,5 @@
 ﻿using System.Collections.Immutable;
-using Mediator;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RichsSnackRack.Menu;

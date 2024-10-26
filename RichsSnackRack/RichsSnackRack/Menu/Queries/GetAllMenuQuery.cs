@@ -1,14 +1,14 @@
 ﻿using System;
-using Mediator;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RichsSnackRack.Menu.Models;
 using RichsSnackRack.Persistence;
 
 namespace RichsSnackRack.Menu
 {
-	public sealed record GetAllMenuQuery() : IQuery<IReadOnlyList<Snack>>;
+	public sealed record GetAllMenuQuery() : IRequest<IReadOnlyList<Snack>>;
 
-    public sealed record GetAllMenuQueryHandler : IQueryHandler<GetAllMenuQuery, IReadOnlyList<Snack>>
+    public sealed record GetAllMenuQueryHandler : IRequestHandler<GetAllMenuQuery, IReadOnlyList<Snack>>
     {
         private readonly SnackRackDbContext _snacksDbContext;
 
@@ -16,7 +16,7 @@ namespace RichsSnackRack.Menu
         {
             _snacksDbContext = snacksDbContext;
         }
-        public async ValueTask<IReadOnlyList<Snack>> Handle(GetAllMenuQuery query, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<Snack>> Handle(GetAllMenuQuery query, CancellationToken cancellationToken)
             => await _snacksDbContext.Snacks
             .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken) ?? new List<Snack>();

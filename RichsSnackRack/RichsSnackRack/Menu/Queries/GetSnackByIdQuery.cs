@@ -1,14 +1,14 @@
 ﻿using System;
-using Mediator;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RichsSnackRack.Menu.Models;
 using RichsSnackRack.Persistence;
 
 namespace RichsSnackRack.Menu.Queries
 {
-    public sealed record GetSnackByIdQuery(int id) : IQuery<Snack?>;
+    public sealed record GetSnackByIdQuery(int id) : IRequest<Snack?>;
 
-    public record class GetSnackByIdQueryHandler : IQueryHandler<GetSnackByIdQuery, Snack?>
+    public record class GetSnackByIdQueryHandler : IRequestHandler<GetSnackByIdQuery, Snack?>
     {
         private readonly SnackRackDbContext _snacksDbContext;
         public GetSnackByIdQueryHandler(SnackRackDbContext snackRackDbContext)
@@ -21,7 +21,7 @@ namespace RichsSnackRack.Menu.Queries
         /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async ValueTask<Snack?> Handle(GetSnackByIdQuery query, CancellationToken cancellationToken)
+        public async Task<Snack?> Handle(GetSnackByIdQuery query, CancellationToken cancellationToken)
         {
             return await _snacksDbContext
                 .Snacks

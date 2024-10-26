@@ -14,7 +14,6 @@ namespace RichsSnackRack.Persistence;
 		}
 		public DbSet<Snack> Snacks { get; set; } = default!;
         public DbSet<Order> Orders { get; set; } = default!;
-        public DbSet<OrderDetailEntity> OrderDetails { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,16 +39,6 @@ namespace RichsSnackRack.Persistence;
                 .HasConversion<int>();
             });
 
-            modelBuilder.Entity<OrderDetailEntity>(entity =>
-            {
-                entity.HasKey(order => order.Id);
-                entity.Property(order => order.Name);
-                entity.Property(order => order.Price);
-                entity.Property(order => order.OrderDate);
-                entity.Property(order => order.OrderTotal);
-                entity.Property(order => order.OrderStatus)
-                .HasConversion<int>();
-            });
     }
 }
 
