@@ -9,7 +9,20 @@ namespace RichsSnackRack.Orders
 {
     public sealed class OrderRepository(SnackRackDbContext snackRackDbContext) : IOrderRepository
     {
-        private static readonly FormattableString OrderDetailViewQuery = $"SELECT od.Id, od.`Name`, od.Price, od.OrderTotal, od.OrderStatus, od.OrderDate FROM OrderDetails od";
+        private static readonly FormattableString OrderDetailViewQuery = @$"SELECT 
+        od.Id
+     , od.`Name`
+     , od.Price
+     , od.OrderTotal
+     , od.OrderStatus
+     , od.OrderDate 
+            FROM OrderDetails od";
+
+        private IQueryable<OrderDetailEntity> OrderDetailsQuery()
+        {
+            return snackRackDbContext
+                .Database.SqlQuery<OrderDetailEntity>(OrderDetailViewQuery);
+        }
 
         public async Task<Order> CreateOrder(Snack snack, CancellationToken cancellationToken)
         {
@@ -27,15 +40,12 @@ namespace RichsSnackRack.Orders
 
         public async Task<IReadOnlyList<OrderDetail>> GetAllOrders(CancellationToken cancellationToken)
         {
-            return await snackRackDbContext
-                .Database.SqlQuery<OrderDetailEntity>(OrderDetailViewQuery)
-                .Select(order => order.ToDetail())
+            return await OrderDetailsQuery().Select(order => order.ToDetail())
                 .ToListAsync(cancellationToken: cancellationToken);
         }
         public async Task<OrderDetail> GetOrderDetailById(Guid id, CancellationToken cancellationToken)
         {
-            OrderDetailEntity? orderDetailEntity = await snackRackDbContext
-                .Database.SqlQuery<OrderDetailEntity>(OrderDetailViewQuery)
+            OrderDetailEntity? orderDetailEntity = await OrderDetailsQuery()
                 .FirstOrDefaultAsync(orderDetail => orderDetail.Id == id, cancellationToken);
             
             return orderDetailEntity is not null ? orderDetailEntity.ToDetail() : new OrderDetail()
