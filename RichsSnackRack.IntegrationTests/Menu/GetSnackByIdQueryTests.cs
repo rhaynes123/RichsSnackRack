@@ -11,15 +11,7 @@ namespace RichsSnackRack.IntegrationTests.Menu
 		public GetSnackByIdQueryTests(TestWebAppFactory contextFixture)
 		{
 			_contextFixture = contextFixture;
-            var snacks = Enumerable.Range(1, 5).Select(id =>
-            {
-                var random = new Random();
-                return new Snack { Id = random.Next(), Price = 5.99m, Name = "Wings" };
-            });
-
-            contextFixture.SnackDbContext.Snacks.AddRange(snacks);
-
-            contextFixture.SnackDbContext.SaveChanges();
+            
         }
 
 		[Fact]

@@ -20,15 +20,19 @@ public sealed record GetSalesQueryHandler : IRequestHandler<GetSalesQuery, IRead
     {
         var orders = await _dbContext.Orders
             .Where(order => order.OrderStatus == OrderStatus.Completed)
+            .Join(_dbContext.Snacks
+            , order => order.SnackId
+            , snack => snack.Id
+            , (order, snack) => new {order, snack})
             .ToListAsync(cancellationToken);
 
-        var snacks = await _dbContext.Snacks.ToDictionaryAsync(snack => snack.Id, cancellationToken);
 
         return orders
-            .GroupBy(order => order.SnackId)
+            .GroupBy(grpOrder => grpOrder.snack
+                , grpOrder => grpOrder.order)
             .Select(group => new Sale
             {
-                Snack = snacks[group.Key],  // Access snacks from in-memory dictionary
+                Snack = group.Key,  // Access snacks from in-memory dictionary
                 Orders = group.ToList()
             })
             .ToList();

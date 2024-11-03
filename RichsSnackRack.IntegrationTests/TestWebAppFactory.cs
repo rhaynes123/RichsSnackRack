@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using DotNet.Testcontainers.Networks;
+using RichsSnackRack.Menu.Models;
 
 namespace RichsSnackRack.IntegrationTests
 {
@@ -75,6 +76,15 @@ namespace RichsSnackRack.IntegrationTests
             using var scope = Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<SnackRackDbContext>();
             await context.Database.MigrateAsync();
+            var snacks = Enumerable.Range(1, 5).Select(id =>
+            {
+                var random = new Random();
+                return new Snack { Id = random.Next(), Price = 5.99m, Name = "Wings" };
+            });
+
+            context.Snacks.AddRange(snacks);
+
+            await context.SaveChangesAsync();
         }
 
         public async new Task DisposeAsync()

@@ -10,37 +10,52 @@
 <div class="col-md-4">
     <input type="text" id="searchInput"class="search-query form-control" placeholder="Search By Order ..">
 </div>
-<div>
-    <table class="table table-borded">
-        <thead class="thead-dark">
-            <tr>
-                <th>Order Id</th>
-                <th>Item Name</th>
-                <th>Base Price</th>
-                <th>Order Total</th>
-                <th>Order Date</th>
-                <td>Status </td>
-                <th>View Order</th>
-            </tr>
-        </thead>
+<div id ="groupedTable">
+    @if (Model.orderDetails.Count is not 0)
+    {
 
-        @if (Model.orderDetails is not null && Model.orderDetails.Count is not 0)
-        {
-            foreach (var item in Model.orderDetails)
+        var ordersByItem  = Model.orderDetails
+            .GroupBy(od => od.Name)
+            .Select(group => new
             {
-                <tbody>
+                SnackName = group.Key,
+                Orders = group.Select(grp => grp)
+            });
+        foreach (var item in ordersByItem)
+        {
+            <div>
+                <h1>@item.SnackName Orders</h1>
+            </div>
+            
+            <table class="table table-borded">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Order Id</th>
+                    <th>Item Name</th>
+                    <th>Base Price</th>
+                    <th>Order Total</th>
+                    <th>Order Date</th>
+                    <td>Status </td>
+                    <th>View Order</th>
+                </tr>
+                </thead>
+                @foreach (var order in item.Orders)
+                {
+                    <tbody>
                     <tr>
-                        <td>@item.Id.Value</td>
-                        <td>@item.Name</td>
-                        <td>@item.Price</td>
-                        <td>@item.OrderTotal</td>
-                        <td>@item.OrderDate</td>
-                        <td class="orderStatus" data-bs-toggle="tooltip" data-bs-placement="left" title="@item.OrderStatus.Description">@item.OrderStatus.Name</td>
-                        <td><a input="submit" class="btn btn-warning" asp-page="./OrderDetail" asp-route-id="@item.Id">View Order Detail</a></td>
+                        <td>@order.Id.Value</td>
+                        <td>@order.Name</td>
+                        <td>@order.Price</td>
+                        <td>@order.OrderTotal</td>
+                        <td>@order.OrderDate</td>
+                        <td class="orderStatus" data-bs-toggle="tooltip" data-bs-placement="left" title="@order.OrderStatus.Description">@order.OrderStatus.Name</td>
+                        <td><a input="submit" class="btn btn-warning" asp-page="./OrderDetail" asp-route-id="@order.Id">View Order Detail</a></td>
                     </tr>
-                </tbody>
-            }
-        }
+                    </tbody>
+                }
 
-    </table>
+            </table>
+        
+        }
+    }
 </div>
