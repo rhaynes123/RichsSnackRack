@@ -12,7 +12,7 @@ namespace RichsSnackRack.Orders.Extensions
                 Id = new OrderId(orderDetailEntity.Id),
                 Price = orderDetailEntity.Price,
                 Name = orderDetailEntity.Name,
-                OrderStatus = OrderDetailStatus.All.Single(status => status.Id == (int)orderDetailEntity.OrderStatus),
+                OrderStatus = orderDetailEntity.OrderStatus.ToOrderDetailStatus(),
                 OrderTotal = orderDetailEntity.OrderTotal,
                 OrderDate = orderDetailEntity.OrderDate
             };

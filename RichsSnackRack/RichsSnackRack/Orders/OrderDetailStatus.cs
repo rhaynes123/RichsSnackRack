@@ -1,8 +1,16 @@
 ﻿using System;
 using RichsSnackRack.Orders.Models.Enums;
+using Riok.Mapperly.Abstractions;
 
 namespace RichsSnackRack.Orders
 {
+    [Mapper]
+    
+    public static partial class StatusMapper
+    {
+        public static OrderDetailStatus ToOrderDetailStatus(this OrderStatus status) 
+            => OrderDetailStatus.All.Single(x => x.Id == (int)status);
+    }
 	public sealed record OrderDetailStatus: Enumeration
 	{
         public OrderDetailStatus(int id, string name, string description) : base(id, name, description)

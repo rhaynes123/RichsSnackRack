@@ -9,6 +9,8 @@ namespace RichsSnackRack.PerformanceTests.Menu.QueryTests
     [MemoryDiagnoser]
     [MaxColumn]
     [MinColumn]
+    [CsvExporter]
+    [KeepBenchmarkFiles]
     public class GetSnackByIdQueryTests : IDisposable
 	{
         private SnackRackDbContext DbContext;
@@ -45,7 +47,7 @@ namespace RichsSnackRack.PerformanceTests.Menu.QueryTests
             DbContext.Database.EnsureDeleted();
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true)]
         public async Task GetSnackByIdFirstOrDefaultAsync()
         {
             await DbContext.Snacks.FirstOrDefaultAsync(snack => snack.Id == Ids);
