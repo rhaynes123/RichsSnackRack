@@ -28,7 +28,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 var app = builder.Build();
 using (var serviceScope = app.Services.CreateScope())
 {
-    SnackRackDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<SnackRackDbContext>();
+    var dbContext = serviceScope.ServiceProvider.GetRequiredService<SnackRackDbContext>();
     await dbContext.Database.MigrateAsync();
 }
 // Configure the HTTP request pipeline.
@@ -38,7 +38,11 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.MapGet("GetAllSales", async (IOrderRepository orderRepository) =>
+{
+    var orders = await orderRepository.GetAllOrders();
+    return Results.Ok(orders);
+});
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

@@ -20,16 +20,16 @@ namespace RichsSnackRack.Orders
 	public sealed record OrderDetail
 	{
         [Key]
-        public OrderId Id { get; set; }
+        public OrderId Id { get; init; }
         [Required(AllowEmptyStrings = false), StringLength(100)]
-        public required string Name { get; set; }
+        public required string Name { get; init; }
         [Required, Range(1, 100), DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 2)")]
-        public required decimal Price { get; set; }
-        public required OrderDetailStatus OrderStatus { get; set; }
-        public required decimal OrderTotal { get; set; }
+        public required decimal Price { get; init; }
+        public required OrderDetailStatus OrderStatus { get; init; }
+        public required decimal OrderTotal { get; init; }
         [Required]
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; init; }
     }
 }
 
