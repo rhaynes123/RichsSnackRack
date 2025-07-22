@@ -22,8 +22,8 @@ namespace RichsSnackRack.IntegrationTests
         private readonly IDockerNetwork _network;
         private readonly CancellationTokenSource _cancellationTokenSource = new(TimeSpan.FromMinutes(1));
 
-        public HttpClient HttpClient { get; private set; } = default!;
-        public SnackRackDbContext SnackDbContext { get; private set; } = default!;
+        public HttpClient HttpClient { get; private set; } = null!;
+        public SnackRackDbContext SnackDbContext { get; private set; } = null!;
         
         public TestWebAppFactory()
         {

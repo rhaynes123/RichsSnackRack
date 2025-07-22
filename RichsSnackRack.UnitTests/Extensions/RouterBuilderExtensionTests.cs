@@ -47,6 +47,6 @@ public class RouterBuilderExtensionTests
         Assert.IsType<Results<Ok<IReadOnlyList<OrderDetail>>, ProblemHttpResult>>(response);
 
         var problemResults = (ProblemHttpResult)response.Result;
-        Assert.Equal((int)HttpStatusCode.InternalServerError, problemResults.ProblemDetails.Status);
+        Assert.Equal("Error", problemResults.ProblemDetails.Detail);
     }
 }
